@@ -1,21 +1,25 @@
 import { useState } from 'react'
 import './App.css'
 
-interface Job {
-  id: number
-  name: string
-  description: string
-  rating: number
-  url: string
-  company: string
+interface JobData {
+  title: string
   seniority: string
-  financialSituation: number // revenue growth in %
-  justifications: string[] // reasons why this job is a match
+}
+
+interface Company {
+  name: string
+  ticker: string
+  website: string
+  financial_summary: string
+  job_data: JobData[]
+  lead_score: number
+  sales_argument: string
+  sources: string[]
 }
 
 function App() {
   const [isLoading, setIsLoading] = useState(false)
-  const [jobs, setJobs] = useState<Job[]>([])
+  const [companies, setCompanies] = useState<Company[]>([])
   const [isFading, setIsFading] = useState(false)
   const [showJobs, setShowJobs] = useState(false)
   const [showStartAnimation, setShowStartAnimation] = useState(false)
@@ -33,166 +37,111 @@ function App() {
     setIsFading(false)
     setShowJobs(false)
 
-    // Simulate backend process - 3 seconds loading
-    setTimeout(() => {
-      // Mock data - replace with actual backend call when ready
-      const mockJobs: Job[] = [
-        {
-          id: 1,
-          name: 'Full Stack Developer',
-          description: 'We are looking for an experienced full stack developer to join our team. You will work on building scalable web applications using modern technologies. Experience with React, Node.js, and cloud services required.',
-          rating: 87,
-          url: 'https://example.com/jobs/senior-full-stack-developer',
-          company: 'TechCorp Solutions',
-          seniority: 'Senior',
-          financialSituation: 45.2,
-          justifications: [
-            'Strong match with your React and Node.js experience',
-            'Company shows 45% revenue growth indicating stability',
-            'Senior role aligns with your career progression goals'
-          ]
+    try {
+      // Send GET request to fetch company data
+      const response = await fetch('http://localhost:3000', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        {
-          id: 2,
-          name: 'AI/ML Engineer',
-          description: 'Join our AI team to develop cutting-edge machine learning models. You will work on NLP, computer vision, and recommendation systems. Strong Python skills and experience with TensorFlow or PyTorch required.',
-          rating: 92,
-          url: 'https://example.com/jobs/ai-ml-engineer',
-          company: 'InnovateAI',
-          seniority: 'Mid-Level',
-          financialSituation: 78.5,
-          justifications: [
-            'Perfect match for your AI/ML background',
-            'Exceptional 78% revenue growth shows strong market position',
-            'Cutting-edge technology stack matches your interests'
-          ]
-        },
-        {
-          id: 3,
-          name: 'DevOps Engineer',
-          description: 'We need a DevOps engineer to help us scale our infrastructure. You will manage CI/CD pipelines, container orchestration, and cloud infrastructure. Experience with Kubernetes, Docker, and AWS/GCP required.',
-          rating: 79,
-          url: 'https://example.com/jobs/devops-engineer',
-          company: 'CloudScale Inc',
-          seniority: 'Junior',
-          financialSituation: 23.1,
-          justifications: [
-            'Good fit for your cloud infrastructure skills',
-            'Growing company with 23% revenue growth',
-            'Opportunity to work with modern DevOps tools'
-          ]
-        }
-      ]
+      })
 
-      // Sort jobs by rating (highest to lowest) - highest score on the left
-      const sortedJobs = mockJobs.sort((a, b) => b.rating - a.rating)
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const data: Company[] = await response.json()
+
+      // Ensure we have valid data
+      if (!Array.isArray(data) || data.length === 0) {
+        throw new Error('Invalid data format or empty response')
+      }
+
+      // Sort companies by lead_score (highest to lowest) - highest score first
+      const sortedCompanies = data.sort((a, b) => b.lead_score - a.lead_score).slice(0, 3)
 
       // Fade out loading, then fade in dashboard
       setIsFading(true)
       setTimeout(() => {
-        setJobs(sortedJobs)
+        setCompanies(sortedCompanies)
         setLastRunTime(new Date())
         setIsLoading(false)
         setTimeout(() => {
           setIsFading(false)
-          // Trigger job card animations after fade in
+          // Trigger company card animations after fade in
           setTimeout(() => {
             setShowJobs(true)
           }, 100)
         }, 50) // Small delay to ensure state update before fade in
-      }, 700) // Fade out duration (increased from 300ms)
-    }, 3000)
+      }, 700) // Fade out duration
+    } catch (error) {
+      console.error('Error fetching company data:', error)
+      // For now, just log the error - don't show error state
+      // This allows viewing mock data during development
+    }
   }
 
-  const handleRetry = () => {
+  const handleRetry = async () => {
     setShowJobs(false)
     setIsFading(true)
 
     // Fade out dashboard, then show loading
-    setTimeout(() => {
-      setJobs([])
+    setTimeout(async () => {
+      setCompanies([])
       setIsLoading(true)
       setIsFading(false)
 
-      // Simulate backend process - 3 seconds loading
-      setTimeout(() => {
-        // Mock data - replace with actual backend call when ready
-        const mockJobs: Job[] = [
-          {
-            id: 1,
-            name: 'Full Stack Developer',
-            description: 'We are looking for an experienced full stack developer to join our team. You will work on building scalable web applications using modern technologies. Experience with React, Node.js, and cloud services required.',
-            rating: 87,
-            url: 'https://example.com/jobs/senior-full-stack-developer',
-            company: 'TechCorp Solutions',
-            seniority: 'Senior',
-            financialSituation: 45.2,
-            justifications: [
-              'Strong match with your React and Node.js experience',
-              'Company shows 45% revenue growth indicating stability',
-              'Senior role aligns with your career progression goals'
-            ]
+      try {
+        // Send GET request to fetch company data
+        const response = await fetch('http://localhost:3000', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
           },
-          {
-            id: 2,
-            name: 'AI/ML Engineer',
-            description: 'Join our AI team to develop cutting-edge machine learning models. You will work on NLP, computer vision, and recommendation systems. Strong Python skills and experience with TensorFlow or PyTorch required.',
-            rating: 92,
-            url: 'https://example.com/jobs/ai-ml-engineer',
-            company: 'InnovateAI',
-            seniority: 'Mid-Level',
-            financialSituation: 78.5,
-            justifications: [
-              'Perfect match for your AI/ML background',
-              'Exceptional 78% revenue growth shows strong market position',
-              'Cutting-edge technology stack matches your interests'
-            ]
-          },
-          {
-            id: 3,
-            name: 'DevOps Engineer',
-            description: 'We need a DevOps engineer to help us scale our infrastructure. You will manage CI/CD pipelines, container orchestration, and cloud infrastructure. Experience with Kubernetes, Docker, and AWS/GCP required.',
-            rating: 79,
-            url: 'https://example.com/jobs/devops-engineer',
-            company: 'CloudScale Inc',
-            seniority: 'Junior',
-            financialSituation: 23.1,
-            justifications: [
-              'Good fit for your cloud infrastructure skills',
-              'Growing company with 23% revenue growth',
-              'Opportunity to work with modern DevOps tools'
-            ]
-          }
-        ]
+        })
 
-        // Sort jobs by rating (highest to lowest) - highest score on the left
-        const sortedJobs = mockJobs.sort((a, b) => b.rating - a.rating)
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`)
+        }
+
+        const data: Company[] = await response.json()
+
+        // Ensure we have valid data
+        if (!Array.isArray(data) || data.length === 0) {
+          throw new Error('Invalid data format or empty response')
+        }
+
+        // Sort companies by lead_score (highest to lowest) - highest score first
+        const sortedCompanies = data.sort((a, b) => b.lead_score - a.lead_score).slice(0, 3)
 
         // Fade out loading, then fade in dashboard
         setIsFading(true)
         setTimeout(() => {
-          setJobs(sortedJobs)
+          setCompanies(sortedCompanies)
           setLastRunTime(new Date())
           setIsLoading(false)
           setTimeout(() => {
             setIsFading(false)
-            // Trigger job card animations after fade in
+            // Trigger company card animations after fade in
             setTimeout(() => {
               setShowJobs(true)
             }, 100)
           }, 50) // Small delay to ensure state update before fade in
-        }, 700) // Fade out duration (increased from 300ms)
-      }, 3000)
+        }, 700) // Fade out duration
+      } catch (error) {
+        console.error('Error fetching company data:', error)
+        // For now, just log the error - don't show error state
+      }
     }, 700) // Fade out duration
   }
 
-  const getRatingColor = (rating: number) => {
-    if (rating >= 80) return 'text-green-700 bg-green-100 border border-green-300'
-    if (rating >= 60) return 'text-orange-700 bg-orange-100 border border-orange-300'
+  const getScoreColor = (score: number) => {
+    if (score >= 80) return 'text-green-700 bg-green-100 border border-green-300'
+    if (score >= 60) return 'text-orange-700 bg-orange-100 border border-orange-300'
     return 'text-red-700 bg-red-100 border border-red-300'
   }
 
-  if (jobs.length > 0) {
+  if (companies.length > 0) {
     return (
       <div className={`min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4 md:p-8 transition-opacity duration-700 ${isFading ? 'opacity-0' : 'opacity-100'}`}>
         <div className="max-w-6xl mx-auto">
@@ -202,7 +151,7 @@ function App() {
                 Dashboard
               </h1>
               <p className="text-slate-600">
-                Top 3 Job Matches
+                Company Matches
               </p>
               {lastRunTime && (
                 <p className="text-sm text-slate-500 mt-1">
@@ -231,11 +180,11 @@ function App() {
             </button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {jobs.map((job, index) => (
+          <div className="space-y-6">
+            {companies.map((company, index) => (
               <div
-                key={job.id}
-                className={`bg-white border border-slate-200 rounded-lg hover:border-slate-300 transition-all duration-500 p-4 flex flex-col shadow-md hover:shadow-lg ${showJobs
+                key={company.name}
+                className={`bg-white border border-slate-200 rounded-lg hover:border-slate-300 transition-all duration-500 p-6 flex flex-col shadow-md hover:shadow-lg ${showJobs
                   ? 'opacity-100 translate-y-0'
                   : 'opacity-0 translate-y-8'
                   }`}
@@ -243,70 +192,49 @@ function App() {
                   transitionDelay: showJobs ? `${index * 100}ms` : '0ms'
                 }}
               >
-                <div className="flex items-start justify-between mb-3">
-                  <div className="flex-1 mr-4">
-                    <h2 className="text-xl font-bold text-slate-900 leading-tight mb-2">
-                      {job.name}
-                    </h2>
-                    <div className="flex flex-col gap-2">
-                      <div className="flex items-center gap-1.5">
-                        <svg
-                          className="w-4 h-4 text-slate-500 flex-shrink-0"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                          />
-                        </svg>
-                        <span className="text-sm font-medium text-slate-700 truncate">{job.company}</span>
-                      </div>
-                      <div className="flex items-center gap-1.5">
-                        <svg
-                          className="w-4 h-4 text-slate-500 flex-shrink-0"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-                          />
-                        </svg>
-                        <span className="text-sm font-medium text-slate-600">{job.seniority}</span>
-                      </div>
+                {/* Company Header */}
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-2">
+                      <h2 className="text-2xl font-bold text-slate-900">
+                        {company.name}
+                      </h2>
+                      {company.ticker && company.ticker !== 'Check' && (
+                        <span className="text-sm text-slate-500 font-medium">
+                          ({company.ticker})
+                        </span>
+                      )}
                     </div>
+                    <a
+                      href={company.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center gap-1"
+                    >
+                      <span>{company.website}</span>
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                        />
+                      </svg>
+                    </a>
                   </div>
-                  <div className={`px-3 py-1 rounded-full text-sm font-semibold whitespace-nowrap ${getRatingColor(job.rating)}`}>
-                    {job.rating}/100
+                  <div className={`px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap ${getScoreColor(company.lead_score)}`}>
+                    Score: {company.lead_score}/100
                   </div>
                 </div>
 
+                {/* Financial Summary */}
                 <div className="mb-4">
-                  <div className="flex items-center gap-2 mb-3">
-                    <svg
-                      className="w-4 h-4 text-slate-500"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                      />
-                    </svg>
-                    <span className="text-sm font-semibold text-slate-700">Lead Score:</span>
-                    <span className="text-sm font-bold text-slate-700">{job.rating}/100</span>
-                  </div>
-                  <div className="flex items-center gap-2 mb-3">
+                  <h3 className="text-sm font-semibold text-slate-800 mb-2 flex items-center gap-2">
                     <svg
                       className="w-4 h-4 text-slate-500"
                       fill="none"
@@ -320,51 +248,18 @@ function App() {
                         d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                       />
                     </svg>
-                    <span className="text-sm font-semibold text-slate-700">Revenue Growth (Last Year):</span>
-                    <span className={`text-sm font-bold ${job.financialSituation >= 50 ? 'text-green-600' : job.financialSituation >= 30 ? 'text-orange-600' : 'text-red-600'}`}>
-                      +{job.financialSituation}%
-                    </span>
-                  </div>
+                    Financial Summary
+                  </h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    {company.financial_summary}
+                  </p>
                 </div>
 
-                <p className="text-slate-600 mb-4 flex-1 line-clamp-3">
-                  {job.description}
-                </p>
-
+                {/* Sales Argument */}
                 <div className="mb-4">
-                  <h3 className="text-sm font-semibold text-slate-800 mb-2">Why this job matches:</h3>
-                  <ul className="space-y-1.5">
-                    {job.justifications.map((justification, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-sm text-slate-600">
-                        <svg
-                          className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M5 13l4 4L19 7"
-                          />
-                        </svg>
-                        <span>{justification}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="mt-auto pt-4 border-t border-slate-200">
-                  <a
-                    href={job.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center gap-2"
-                  >
-                    <span>View Job</span>
+                  <h3 className="text-sm font-semibold text-slate-800 mb-2 flex items-center gap-2">
                     <svg
-                      className="w-4 h-4"
+                      className="w-4 h-4 text-slate-500"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -373,14 +268,93 @@ function App() {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth={2}
-                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                       />
                     </svg>
-                  </a>
-                  <p className="text-xs text-slate-400 mt-2 truncate" title={job.url}>
-                    {job.url}
+                    Sales Argument
+                  </h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    {company.sales_argument}
                   </p>
                 </div>
+
+                {/* Job Listings */}
+                <div className="mb-4">
+                  <h3 className="text-sm font-semibold text-slate-800 mb-3 flex items-center gap-2">
+                    <svg
+                      className="w-4 h-4 text-slate-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                      />
+                    </svg>
+                    Open Positions ({company.job_data.length})
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {company.job_data.map((job, jobIndex) => (
+                      <div
+                        key={jobIndex}
+                        className="bg-slate-50 border border-slate-200 rounded-lg p-3"
+                      >
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <h4 className="text-sm font-semibold text-slate-900 mb-1">
+                              {job.title}
+                            </h4>
+                            <div className="flex items-center gap-1.5">
+                              <svg
+                                className="w-3.5 h-3.5 text-slate-500 flex-shrink-0"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+                                />
+                              </svg>
+                              <span className="text-xs font-medium text-slate-600">{job.seniority}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Sources */}
+                {company.sources && company.sources.length > 0 && (
+                  <div className="mt-4 pt-4 border-t border-slate-200">
+                    <h3 className="text-xs font-semibold text-slate-700 mb-2">Sources:</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {company.sources.slice(0, 5).map((source, sourceIndex) => (
+                        <a
+                          key={sourceIndex}
+                          href={source}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-blue-600 hover:text-blue-700 hover:underline truncate max-w-xs"
+                          title={source}
+                        >
+                          {source}
+                        </a>
+                      ))}
+                      {company.sources.length > 5 && (
+                        <span className="text-xs text-slate-500">
+                          +{company.sources.length - 5} more
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
           </div>
