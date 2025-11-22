@@ -7,8 +7,6 @@ interface Job {
   description: string
   rating: number
   url: string
-  company: string
-  seniority: string
 }
 
 function App() {
@@ -36,30 +34,24 @@ function App() {
       const mockJobs: Job[] = [
         {
           id: 1,
-          name: 'Full Stack Developer',
+          name: 'Senior Full Stack Developer',
           description: 'We are looking for an experienced full stack developer to join our team. You will work on building scalable web applications using modern technologies. Experience with React, Node.js, and cloud services required.',
           rating: 87,
-          url: 'https://example.com/jobs/senior-full-stack-developer',
-          company: 'TechCorp Solutions',
-          seniority: 'Senior'
+          url: 'https://example.com/jobs/senior-full-stack-developer'
         },
         {
           id: 2,
           name: 'AI/ML Engineer',
           description: 'Join our AI team to develop cutting-edge machine learning models. You will work on NLP, computer vision, and recommendation systems. Strong Python skills and experience with TensorFlow or PyTorch required.',
           rating: 92,
-          url: 'https://example.com/jobs/ai-ml-engineer',
-          company: 'InnovateAI',
-          seniority: 'Mid-Level'
+          url: 'https://example.com/jobs/ai-ml-engineer'
         },
         {
           id: 3,
           name: 'DevOps Engineer',
           description: 'We need a DevOps engineer to help us scale our infrastructure. You will manage CI/CD pipelines, container orchestration, and cloud infrastructure. Experience with Kubernetes, Docker, and AWS/GCP required.',
           rating: 79,
-          url: 'https://example.com/jobs/devops-engineer',
-          company: 'CloudScale Inc',
-          seniority: 'Junior'
+          url: 'https://example.com/jobs/devops-engineer'
         }
       ]
 
@@ -98,30 +90,24 @@ function App() {
         const mockJobs: Job[] = [
           {
             id: 1,
-            name: 'Full Stack Developer',
+            name: 'Senior Full Stack Developer',
             description: 'We are looking for an experienced full stack developer to join our team. You will work on building scalable web applications using modern technologies. Experience with React, Node.js, and cloud services required.',
             rating: 87,
-            url: 'https://example.com/jobs/senior-full-stack-developer',
-            company: 'TechCorp Solutions',
-            seniority: 'Senior'
+            url: 'https://example.com/jobs/senior-full-stack-developer'
           },
           {
             id: 2,
             name: 'AI/ML Engineer',
             description: 'Join our AI team to develop cutting-edge machine learning models. You will work on NLP, computer vision, and recommendation systems. Strong Python skills and experience with TensorFlow or PyTorch required.',
             rating: 92,
-            url: 'https://example.com/jobs/ai-ml-engineer',
-            company: 'InnovateAI',
-            seniority: 'Mid-Level'
+            url: 'https://example.com/jobs/ai-ml-engineer'
           },
           {
             id: 3,
             name: 'DevOps Engineer',
             description: 'We need a DevOps engineer to help us scale our infrastructure. You will manage CI/CD pipelines, container orchestration, and cloud infrastructure. Experience with Kubernetes, Docker, and AWS/GCP required.',
             rating: 79,
-            url: 'https://example.com/jobs/devops-engineer',
-            company: 'CloudScale Inc',
-            seniority: 'Junior'
+            url: 'https://example.com/jobs/devops-engineer'
           }
         ]
 
@@ -146,27 +132,27 @@ function App() {
   }
 
   const getRatingColor = (rating: number) => {
-    if (rating >= 80) return 'text-green-600 bg-green-100'
-    if (rating >= 60) return 'text-purple-600 bg-purple-100'
-    return 'text-purple-400 bg-purple-50'
+    if (rating >= 80) return 'text-green-700 bg-green-100 border border-green-300'
+    if (rating >= 60) return 'text-orange-700 bg-orange-100 border border-orange-300'
+    return 'text-red-700 bg-red-100 border border-red-300'
   }
 
   if (jobs.length > 0) {
     return (
-      <div className={`min-h-screen bg-white p-4 md:p-8 transition-opacity duration-700 flex items-center justify-center ${isFading ? 'opacity-0' : 'opacity-100'}`}>
-        <div className="max-w-6xl w-full border border-slate-200 rounded-xl shadow-md p-6 md:p-8 bg-white">
+      <div className={`min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4 md:p-8 transition-opacity duration-700 ${isFading ? 'opacity-0' : 'opacity-100'}`}>
+        <div className="max-w-6xl mx-auto">
           <div className="mb-8 flex items-center justify-between">
             <div>
-              <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-2">
+              <h1 className="text-4xl md:text-5xl font-bold text-slate-800 mb-2">
                 Dashboard
               </h1>
-              <p className="text-slate-700">
+              <p className="text-slate-600">
                 Top 3 Job Matches
               </p>
             </div>
             <button
               onClick={handleRetry}
-              className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2 px-4 rounded-lg transition-all duration-200 transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg flex items-center gap-2"
+              className="bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-2 px-4 rounded-lg transition-all duration-200 transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg flex items-center gap-2"
             >
               <svg
                 className="w-5 h-5"
@@ -189,7 +175,7 @@ function App() {
             {jobs.map((job, index) => (
               <div
                 key={job.id}
-                className={`bg-white border border-slate-200 rounded-xl shadow-md hover:shadow-xl transition-all duration-500 p-6 flex flex-col hover:border-slate-300 ${showJobs
+                className={`bg-white border border-slate-200 rounded-lg hover:border-slate-300 transition-all duration-500 p-4 flex flex-col shadow-md hover:shadow-lg ${showJobs
                   ? 'opacity-100 translate-y-0'
                   : 'opacity-0 translate-y-8'
                   }`}
@@ -197,61 +183,25 @@ function App() {
                   transitionDelay: showJobs ? `${index * 100}ms` : '0ms'
                 }}
               >
-                <div className="flex items-start justify-between mb-3">
-                  <div className="flex-1 mr-4">
-                    <h2 className="text-xl font-bold text-slate-900 leading-tight mb-2">
-                      {job.name}
-                    </h2>
-                    <div className="flex flex-col gap-2">
-                      <div className="flex items-center gap-1.5">
-                        <svg
-                          className="w-4 h-4 text-slate-500 flex-shrink-0"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                          />
-                        </svg>
-                        <span className="text-sm font-medium text-slate-700 truncate">{job.company}</span>
-                      </div>
-                      <div className="flex items-center gap-1.5">
-                        <svg
-                          className="w-4 h-4 text-slate-500 flex-shrink-0"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-                          />
-                        </svg>
-                        <span className="text-sm font-medium text-slate-600">{job.seniority}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className={`px-3 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap shadow-sm ${getRatingColor(job.rating)}`}>
+                <div className="flex items-start justify-between mb-4">
+                  <h2 className="text-xl font-bold text-slate-900 flex-1 mr-4">
+                    {job.name}
+                  </h2>
+                  <div className={`px-3 py-1 rounded-full text-sm font-semibold whitespace-nowrap ${getRatingColor(job.rating)}`}>
                     {job.rating}/100
                   </div>
                 </div>
 
-                <p className="text-slate-600 mb-5 flex-1 line-clamp-4 leading-relaxed">
+                <p className="text-slate-600 mb-4 flex-1 line-clamp-4">
                   {job.description}
                 </p>
 
-                <div className="mt-auto pt-5 border-t border-slate-100">
+                <div className="mt-auto pt-4 border-t border-slate-200">
                   <a
                     href={job.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 hover:text-blue-700 text-sm font-semibold flex items-center gap-2 transition-colors"
+                    className="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center gap-2"
                   >
                     <span>View Job</span>
                     <svg
@@ -332,14 +282,14 @@ function App() {
   }
 
   return (
-    <div className={`min-h-screen bg-white flex items-center justify-center p-4 transition-opacity duration-700 ${isFading ? 'opacity-0' : 'opacity-100'}`}>
+    <div className={`min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4 transition-opacity duration-700 ${isFading ? 'opacity-0' : 'opacity-100'}`}>
       <div className="max-w-5xl w-full">
         <div className="text-center space-y-8 md:space-y-12">
           <div className="space-y-6">
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-slate-900 leading-tight">
               AI Lead Agent
             </h1>
-            <p className="text-xl md:text-2xl lg:text-3xl text-slate-700 font-light max-w-3xl mx-auto">
+            <p className="text-xl md:text-2xl lg:text-3xl text-slate-600 font-light max-w-3xl mx-auto">
               Start identifying potential customers with intelligent automation
             </p>
           </div>
@@ -360,7 +310,7 @@ function App() {
                     <div className="absolute top-0 left-0 w-full h-full border-4 border-blue-600 rounded-full border-t-transparent animate-spin-slow"></div>
                   </div>
                 </div>
-                <p className="text-slate-700 font-medium text-lg animate-pulse">
+                <p className="text-slate-600 font-medium text-lg animate-pulse">
                   Starting...
                 </p>
               </div>
@@ -372,7 +322,7 @@ function App() {
                     <div className="absolute top-0 left-0 w-full h-full border-4 border-blue-600 rounded-full border-t-transparent animate-spin"></div>
                   </div>
                 </div>
-                <p className="text-slate-700 font-medium text-lg">
+                <p className="text-slate-600 font-medium text-lg">
                   Processing...
                 </p>
               </div>
