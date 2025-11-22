@@ -1,5 +1,6 @@
 import json
 import re
+import sys
 import yfinance as yf
 from typing import List, Dict, TypedDict, Optional
 import operator
@@ -32,6 +33,22 @@ class AgentState(TypedDict):
     status: str
 
 # --- HELPERS ---
+# Global logger callback
+log_callback = None
+
+def set_log_callback(callback):
+    global log_callback
+    log_callback = callback
+
+def log(*args):
+    message = " ".join(map(str, args))
+    if log_callback:
+        try:
+            log_callback(message)
+        except Exception:
+            pass
+    sys.stdout.write(message + "\n")
+
 def extract_json_list(text):
     """Robustly extracts a JSON list from LLM output."""
     try:
@@ -72,7 +89,7 @@ def check_stock_growth(ticker_symbol):
 # --- NODES ---
 
 def discovery_node(state: AgentState):
-    print("\n--- [1] Discovery: Finding Potential Leads ---")
+    log("\n--- [1] Discovery: Finding Potential Leads ---")
     llm = ChatOllama(model=LLM_MODEL, temperature=0)
     search = TavilySearchResults(max_results=5)
     
@@ -117,7 +134,7 @@ def discovery_node(state: AgentState):
     if not names:
         names = ["Kone", "Supermetrics", "Wolt", "Oura", "Nokia"]
         
-    print(f"   Identified Candidates: {names}")
+    log(f"   Identified Candidates: {names}")
     
     companies_struct = []
     for name in names:
@@ -135,7 +152,7 @@ def discovery_node(state: AgentState):
     return {"companies": companies_struct}
 
 def financial_node(state: AgentState):
-    print("\n--- [2] Financials: Assessing Budget & Growth ---")
+    log("\n--- [2] Financials: Assessing Budget & Growth ---")
     companies = state['companies']
     llm = ChatOllama(model=LLM_MODEL, temperature=0)
     search = TavilySearchResults(max_results=2)
@@ -143,7 +160,7 @@ def financial_node(state: AgentState):
     updated_companies = []
     csv_df = pd.read_csv("./finnish_companies.csv")
     for comp in companies:
-        print(f"   Checking Financials: {comp['name']}")
+        log(f"   Checking Financials: {comp['name']}")
         
         # 1. Ticker Check
         ticker_query = f"Stock ticker for {comp['name']} Finland. Is it public?"
@@ -166,7 +183,7 @@ def financial_node(state: AgentState):
         match = csv_df[csv_df['Company'].str.lower().str.strip().apply(lambda x: x in company_name_lower)]
         if not match.empty:
             ticker_csv = match.iloc[0]['Ticker']
-            print(f"      Found Ticker in CSV: {ticker_csv}")
+            log(f"      Found Ticker in CSV: {ticker_csv}")
             comp['ticker'] = ticker_csv
             stock_data = check_stock_growth(ticker_csv)
             if stock_data:
@@ -203,7 +220,7 @@ def financial_node(state: AgentState):
     return {"companies": updated_companies}
 
 def recruitment_node(state: AgentState):
-    print("\n--- [3] Recruitment: Scouting Talent Gaps ---")
+    log("\n--- [3] Recruitment: Scouting Talent Gaps ---")
     companies = state['companies']
     llm = ChatOllama(model=LLM_MODEL, temperature=0)
     search = TavilySearchResults(max_results=3)
@@ -211,7 +228,7 @@ def recruitment_node(state: AgentState):
     updated_companies = []
     
     for comp in companies:
-        print(f"   Scouting Jobs: {comp['name']}")
+        log(f"   Scouting Jobs: {comp['name']}")
         
         # Targeted search for Skillio's fit (Data/AI roles)
         query = f"site:*.fi {comp['name']} careers open positions data engineer analyst ai developer list"
@@ -245,14 +262,14 @@ def scoring_node(state: AgentState):
     The 'Brain' of the operation.
     Evaluates fit for Skillio based on the 'Quality Lead' criteria.
     """
-    print("\n--- [4] Scoring: Qualifying Leads for Skillio ---")
+    log("\n--- [4] Scoring: Qualifying Leads for Skillio ---")
     companies = state['companies']
     llm = ChatOllama(model=LLM_MODEL, temperature=0)
     
     scored_companies = []
     
     for comp in companies:
-        print(f"   Scoring: {comp['name']}...")
+        log(f"   Scoring: {comp['name']}...")
         
         # Prepare the context for the LLM Agent
         prompt = f"""
@@ -303,7 +320,7 @@ def scoring_node(state: AgentState):
             comp['sales_argument'] = result.get('sales_argument', "Analysis failed.")
             
         except Exception as e:
-            print(f"   Scoring Error for {comp['name']}: {e}")
+            log(f"   Scoring Error for {comp['name']}: {e}")
             comp['lead_score'] = 0
             comp['sales_argument'] = "Could not score due to data issues."
             
@@ -315,7 +332,7 @@ def scoring_node(state: AgentState):
     return {"companies": scored_companies}
 
 def writer_node(state: AgentState):
-    print("\n--- [5] Final Report ---")
+    log("\n--- [5] Final Report ---")
     
     # Deduplicate sources
     for comp in state['companies']:
@@ -328,7 +345,7 @@ def writer_node(state: AgentState):
 
     with open(filename, "w") as f:
         json.dump(state['companies'], f, indent=4)
-    print(f"Leads saved to {filename} (Ordered by Priority)")
+    log(f"Leads saved to {filename} (Ordered by Priority)")
     return state
 
 # --- GRAPH CONSTRUCTION ---
