@@ -9,6 +9,8 @@ interface Job {
   url: string
   company: string
   seniority: string
+  financialSituation: number // revenue growth in %
+  justifications: string[] // reasons why this job is a match
 }
 
 function App() {
@@ -42,7 +44,13 @@ function App() {
           rating: 87,
           url: 'https://example.com/jobs/senior-full-stack-developer',
           company: 'TechCorp Solutions',
-          seniority: 'Senior'
+          seniority: 'Senior',
+          financialSituation: 45.2,
+          justifications: [
+            'Strong match with your React and Node.js experience',
+            'Company shows 45% revenue growth indicating stability',
+            'Senior role aligns with your career progression goals'
+          ]
         },
         {
           id: 2,
@@ -51,7 +59,13 @@ function App() {
           rating: 92,
           url: 'https://example.com/jobs/ai-ml-engineer',
           company: 'InnovateAI',
-          seniority: 'Mid-Level'
+          seniority: 'Mid-Level',
+          financialSituation: 78.5,
+          justifications: [
+            'Perfect match for your AI/ML background',
+            'Exceptional 78% revenue growth shows strong market position',
+            'Cutting-edge technology stack matches your interests'
+          ]
         },
         {
           id: 3,
@@ -60,7 +74,13 @@ function App() {
           rating: 79,
           url: 'https://example.com/jobs/devops-engineer',
           company: 'CloudScale Inc',
-          seniority: 'Junior'
+          seniority: 'Junior',
+          financialSituation: 23.1,
+          justifications: [
+            'Good fit for your cloud infrastructure skills',
+            'Growing company with 23% revenue growth',
+            'Opportunity to work with modern DevOps tools'
+          ]
         }
       ]
 
@@ -105,7 +125,13 @@ function App() {
             rating: 87,
             url: 'https://example.com/jobs/senior-full-stack-developer',
             company: 'TechCorp Solutions',
-            seniority: 'Senior'
+            seniority: 'Senior',
+            financialSituation: 45.2,
+            justifications: [
+              'Strong match with your React and Node.js experience',
+              'Company shows 45% revenue growth indicating stability',
+              'Senior role aligns with your career progression goals'
+            ]
           },
           {
             id: 2,
@@ -114,7 +140,13 @@ function App() {
             rating: 92,
             url: 'https://example.com/jobs/ai-ml-engineer',
             company: 'InnovateAI',
-            seniority: 'Mid-Level'
+            seniority: 'Mid-Level',
+            financialSituation: 78.5,
+            justifications: [
+              'Perfect match for your AI/ML background',
+              'Exceptional 78% revenue growth shows strong market position',
+              'Cutting-edge technology stack matches your interests'
+            ]
           },
           {
             id: 3,
@@ -123,7 +155,13 @@ function App() {
             rating: 79,
             url: 'https://example.com/jobs/devops-engineer',
             company: 'CloudScale Inc',
-            seniority: 'Junior'
+            seniority: 'Junior',
+            financialSituation: 23.1,
+            justifications: [
+              'Good fit for your cloud infrastructure skills',
+              'Growing company with 23% revenue growth',
+              'Opportunity to work with modern DevOps tools'
+            ]
           }
         ]
 
@@ -205,7 +243,7 @@ function App() {
                   transitionDelay: showJobs ? `${index * 100}ms` : '0ms'
                 }}
               >
-                <div className="flex items-start justify-between mb-4">
+                <div className="flex items-start justify-between mb-3">
                   <div className="flex-1 mr-4">
                     <h2 className="text-xl font-bold text-slate-900 leading-tight mb-2">
                       {job.name}
@@ -250,9 +288,72 @@ function App() {
                   </div>
                 </div>
 
-                <p className="text-slate-600 mb-4 flex-1 line-clamp-4">
+                <div className="mb-4">
+                  <div className="flex items-center gap-2 mb-3">
+                    <svg
+                      className="w-4 h-4 text-slate-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                      />
+                    </svg>
+                    <span className="text-sm font-semibold text-slate-700">Lead Score:</span>
+                    <span className="text-sm font-bold text-slate-700">{job.rating}/100</span>
+                  </div>
+                  <div className="flex items-center gap-2 mb-3">
+                    <svg
+                      className="w-4 h-4 text-slate-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <span className="text-sm font-semibold text-slate-700">Revenue Growth:</span>
+                    <span className={`text-sm font-bold ${job.financialSituation >= 50 ? 'text-green-600' : job.financialSituation >= 30 ? 'text-orange-600' : 'text-red-600'}`}>
+                      +{job.financialSituation}%
+                    </span>
+                  </div>
+                </div>
+
+                <p className="text-slate-600 mb-4 flex-1 line-clamp-3">
                   {job.description}
                 </p>
+
+                <div className="mb-4">
+                  <h3 className="text-sm font-semibold text-slate-800 mb-2">Why this job matches:</h3>
+                  <ul className="space-y-1.5">
+                    {job.justifications.map((justification, idx) => (
+                      <li key={idx} className="flex items-start gap-2 text-sm text-slate-600">
+                        <svg
+                          className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                        <span>{justification}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
                 <div className="mt-auto pt-4 border-t border-slate-200">
                   <a
