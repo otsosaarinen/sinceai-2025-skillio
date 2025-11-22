@@ -149,7 +149,7 @@ def discovery_node(state: AgentState):
             "sources": []
         })
         
-    return {"companies": companies_struct}
+    return {"companies": companies_struct[:5]}  # Limit to first 5 for manageability
 
 def financial_node(state: AgentState):
     log("\n--- [2] Financials: Assessing Budget & Growth ---")
