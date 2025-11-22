@@ -133,26 +133,26 @@ function App() {
 
   const getRatingColor = (rating: number) => {
     if (rating >= 80) return 'text-green-600 bg-green-100'
-    if (rating >= 60) return 'text-yellow-600 bg-yellow-100'
-    return 'text-red-600 bg-red-100'
+    if (rating >= 60) return 'text-purple-600 bg-purple-100'
+    return 'text-purple-400 bg-purple-50'
   }
 
   if (jobs.length > 0) {
     return (
-      <div className={`min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4 md:p-8 transition-opacity duration-700 ${isFading ? 'opacity-0' : 'opacity-100'}`}>
+      <div className={`min-h-screen bg-white p-4 md:p-8 transition-opacity duration-700 ${isFading ? 'opacity-0' : 'opacity-100'}`}>
         <div className="max-w-6xl mx-auto">
           <div className="mb-8 flex items-center justify-between">
             <div>
-              <h1 className="text-4xl md:text-5xl font-bold text-slate-800 mb-2">
+              <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-2">
                 Dashboard
               </h1>
-              <p className="text-slate-600">
+              <p className="text-slate-700">
                 Top 3 Job Matches
               </p>
             </div>
             <button
               onClick={handleRetry}
-              className="bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-2 px-4 rounded-lg transition-all duration-200 transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg flex items-center gap-2"
+              className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2 px-4 rounded-lg transition-all duration-200 transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg flex items-center gap-2"
             >
               <svg
                 className="w-5 h-5"
@@ -175,7 +175,7 @@ function App() {
             {jobs.map((job, index) => (
               <div
                 key={job.id}
-                className={`bg-emerald-50 border border-emerald-200 rounded-lg hover:border-emerald-300 transition-all duration-500 p-4 flex flex-col ${showJobs
+                className={`bg-white border border-slate-200 rounded-xl shadow-md hover:shadow-xl transition-all duration-500 p-6 flex flex-col hover:border-slate-300 ${showJobs
                   ? 'opacity-100 translate-y-0'
                   : 'opacity-0 translate-y-8'
                   }`}
@@ -184,24 +184,24 @@ function App() {
                 }}
               >
                 <div className="flex items-start justify-between mb-4">
-                  <h2 className="text-xl font-bold text-emerald-900 flex-1 mr-4">
+                  <h2 className="text-xl font-bold text-slate-900 flex-1 mr-4 leading-tight">
                     {job.name}
                   </h2>
-                  <div className={`px-3 py-1 rounded-full text-sm font-semibold whitespace-nowrap ${getRatingColor(job.rating)}`}>
+                  <div className={`px-3 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap shadow-sm ${getRatingColor(job.rating)}`}>
                     {job.rating}/100
                   </div>
                 </div>
 
-                <p className="text-emerald-800 mb-4 flex-1 line-clamp-4">
+                <p className="text-slate-600 mb-5 flex-1 line-clamp-4 leading-relaxed">
                   {job.description}
                 </p>
 
-                <div className="mt-auto pt-4 border-t border-emerald-200">
+                <div className="mt-auto pt-5 border-t border-slate-100">
                   <a
                     href={job.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-emerald-700 hover:text-emerald-800 text-sm font-medium flex items-center gap-2"
+                    className="text-blue-600 hover:text-blue-700 text-sm font-semibold flex items-center gap-2 transition-colors"
                   >
                     <span>View Job</span>
                     <svg
@@ -218,7 +218,7 @@ function App() {
                       />
                     </svg>
                   </a>
-                  <p className="text-xs text-emerald-600 mt-2 truncate" title={job.url}>
+                  <p className="text-xs text-slate-400 mt-2 truncate" title={job.url}>
                     {job.url}
                   </p>
                 </div>
@@ -282,14 +282,14 @@ function App() {
   }
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4 transition-opacity duration-700 ${isFading ? 'opacity-0' : 'opacity-100'}`}>
+    <div className={`min-h-screen bg-white flex items-center justify-center p-4 transition-opacity duration-700 ${isFading ? 'opacity-0' : 'opacity-100'}`}>
       <div className="max-w-5xl w-full">
         <div className="text-center space-y-8 md:space-y-12">
           <div className="space-y-6">
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-slate-900 leading-tight">
               AI Lead Agent
             </h1>
-            <p className="text-xl md:text-2xl lg:text-3xl text-slate-600 font-light max-w-3xl mx-auto">
+            <p className="text-xl md:text-2xl lg:text-3xl text-slate-700 font-light max-w-3xl mx-auto">
               Start identifying potential customers with intelligent automation
             </p>
           </div>
@@ -310,7 +310,7 @@ function App() {
                     <div className="absolute top-0 left-0 w-full h-full border-4 border-blue-600 rounded-full border-t-transparent animate-spin-slow"></div>
                   </div>
                 </div>
-                <p className="text-slate-600 font-medium text-lg animate-pulse">
+                <p className="text-slate-700 font-medium text-lg animate-pulse">
                   Starting...
                 </p>
               </div>
@@ -322,7 +322,7 @@ function App() {
                     <div className="absolute top-0 left-0 w-full h-full border-4 border-blue-600 rounded-full border-t-transparent animate-spin"></div>
                   </div>
                 </div>
-                <p className="text-slate-600 font-medium text-lg">
+                <p className="text-slate-700 font-medium text-lg">
                   Processing...
                 </p>
               </div>
