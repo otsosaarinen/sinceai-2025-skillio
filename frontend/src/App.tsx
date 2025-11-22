@@ -67,7 +67,7 @@ function App() {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(data),
+          body: JSON.stringify(sortedCompanies),
         })
       } catch (postError) {
         console.error('Error sending data to webhook:', postError)
