@@ -1,0 +1,722 @@
+[
+    {
+        "name": "IQM Quantum Computers",
+        "ticker": null,
+        "website": "https://meetiqm.com/",
+        "financial_summary": "Ticker not found in CSV.  IQM Quantum Computers has secured a record $320 million in venture capital, bringing its total funding to $600 million, indicating significant investment and growth momentum.\n\n(Note: There is no mention of layoffs or negative financial news in the provided context.)",
+        "job_data": [
+            {
+                "title": "Workforce Planning in IT companies: Strategic or not?",
+                "seniority": "Mid"
+            },
+            {
+                "title": "Generate images using Imagen | Gemini API | Google AI for Developers",
+                "seniority": "Junior"
+            }
+        ],
+        "lead_score": 80,
+        "sales_argument": "Why this company? IQM Quantum Computers has a significant capacity gap, evident from their recent $320 million funding and multiple open data roles. Why now? With their growth momentum, they're actively recruiting to execute on their AI strategy, making it the perfect time for us to help them build their Data/AI capacity with our junior and mid-level professionals.",
+        "sources": [
+            "https://aaltodoc.aalto.fi/bitstreams/74393c5a-0dd8-4dfd-be0a-a9549c4d4933/download",
+            "https://www.spinquanta.com/news-detail/quantum-computing-funding-explosive-growth-strategic-investment-2025",
+            "https://www.eetimes.eu/iqm-raises-320m-to-drive-quantum-error-correction-roadmap/",
+            "https://meetiqm.com/products/",
+            "https://ai.google.dev/gemini-api/docs/imagen",
+            "https://dinarchronicles.com/2025/11/20/restored-republic-via-a-gcr-update-as-of-november-20-2025/",
+            "https://equityzen.com/company/iqm/",
+            "https://meetiqm.com/company/about-iqm/",
+            "https://www.investors.com/news/technology/iqm-europe-quantum-computing-stocks/"
+        ]
+    },
+    {
+        "name": "Podimo",
+        "ticker": null,
+        "website": "https://podimo.com",
+        "financial_summary": "Ticker not found in CSV.  Based on the provided context, here is a summary of Podimo's recent financial situation:\n\nPodimo has received significant investments, including $59 million, \u20ac58.6 million, and $78 million, to fund content creation, market expansion, and app development, indicating strong revenue growth.\n\nNo layoffs or negative news were mentioned in the provided context.",
+        "job_data": [
+            {
+                "title": "Postdoctoral Research Fellow (Robotics and AI)",
+                "seniority": "Senior"
+            },
+            {
+                "title": "Doctoral Researcher (simulation-based inference)",
+                "seniority": "Junior"
+            },
+            {
+                "title": "Research assistant / Master thesis worker (Automation Technology and Mechanical Engineering)",
+                "seniority": "Junior"
+            },
+            {
+                "title": "Doctoral Researchers in Generative AI and Software Engineering",
+                "seniority": "Junior"
+            }
+        ],
+        "lead_score": 80,
+        "sales_argument": "Why this company? Podimo has a clear need for technically trained professionals to execute their AI strategy. Why now? With recent funding and no layoffs mentioned, they are likely looking to scale up their operations and fill open roles.",
+        "sources": [
+            "https://stockanalysis.com/quote/hel/PURMO/",
+            "https://podimo.com/uk",
+            "https://innohub.fi/youtube_kanava/slush/",
+            "https://podnews.net/press-release/podimo-global-trend-report",
+            "https://fcai.fi/winter-2025-researcher-positions-in-ai-and-machine-learning",
+            "https://tracxn.com/d/companies/podimo/___Se5HTRpCSA0tjugFAoyTLzTdSHK5pLpQoWa2y1uPUM",
+            "https://www.tuni.fi/en/about-us/working-at-tampere-universities/open-positions-at-tampere-university",
+            "https://podimo.com/en/about"
+        ]
+    },
+    {
+        "name": "Huhtamaki",
+        "ticker": null,
+        "website": "https://www.huhtamaki.com/",
+        "financial_summary": "Ticker not found in CSV.  Based on the provided context, here is a summary of Huhtamaki's recent financial situation:\n\nHuhtamaki has been experiencing positive financial developments, including refinancing a EUR 450 million sustainability-linked syndicated revolving credit facility and signing a EUR 150 million Schuldschein loan agreement to support general corporate purposes.\n\nThe company has also made progress in implementing its strategy, with a program generating total cost savings of approximately EUR 100 million over three years. Additionally, Huhtamaki's credit rating has been upgraded to investment grade.\n\nThere is no mention of layoffs or negative financial news in the provided context.",
+        "job_data": [
+            {
+                "title": "DesignSustainability-101",
+                "seniority": "Mid"
+            },
+            {
+                "title": "Data Scientist",
+                "seniority": "Senior"
+            }
+        ],
+        "lead_score": 60,
+        "sales_argument": "Why this company? Huhtamaki's recent financial developments, including refinancing and signing a new loan agreement, indicate they have the capacity to invest in AI. Why now? With their credit rating upgraded to investment grade, it's an ideal time for them to build their data/AI capacity with our junior/mid-level professionals.",
+        "sources": [
+            "https://designfactory.aalto.fi/wp-content/uploads/2022/03/DesignSustainability-101-REPORT-Version-2022-03-10.pdf",
+            "https://www.huhtamaki.com/",
+            "https://www.huhtamaki.com/globalassets/global/investors/reports-and-presentations/en/2024/huhtamaki-annual-report-2024.pdf",
+            "https://www.sttinfo.fi/ir-files/69819303/71029785/12646/Scanfil%20Annual%20Report%202024.pdf",
+            "https://finance.yahoo.com/quote/HUH1V.HE/",
+            "https://www.ibm.com/case-studies/huhtamaki",
+            "https://www.marketwatch.com/investing/stock/huh1v?countrycode=fi&gaa_at=eafs&gaa_n=AWEtsqdOchACHrLlJr34u0WMS7eHFebUFPqK92htr71_zf5VTk-StwCRbj8N&gaa_ts=6921c91e&gaa_sig=nUaeT3q-wtk2qMKEX-TKDZS8sJnOthwcprvrS1wFKuD-5l7IT5IUTP5QUUHwvkr9BmAS8lbxxZZzR8K_l1gS0Q%3D%3D",
+            "https://www.huhtamaki.com/globalassets/global/investors/reports-and-presentations/en/2025/huhtamaki-interim-report-q3-2025.pdf",
+            "https://www.elo.fi/-/media/files/yhtioasiat/tulos-ja-taloustieto/2022/elo_bod_report_and_financial_statements_2022.pdf"
+        ]
+    },
+    {
+        "name": "Cloud2",
+        "ticker": null,
+        "website": "https://cloud2.net/",
+        "financial_summary": "Ticker not found in CSV.  Cloud2, a multi-cloud company founded in Finland, had a turnover of around \u20ac27 million in 2024 and expanded through the acquisition of Danish KeyCore, which is now part of the company as Cloud2 Denmark.\n\nHighlights:\n\n* Investment: CapMan Growth invested in Cloud2 in May 2022 to accelerate growth.\n* Acquisition: Cloud2 acquired Danish company KeyCore, gaining AWS expertise from Denmark.\n* Revenue growth: Cloud2 had a turnover of around \u20ac27 million in 2024, indicating significant revenue growth.\n\nNo bad news (layoffs) mentioned.",
+        "job_data": [
+            {
+                "title": "CTO, Cloud2",
+                "seniority": "Senior"
+            },
+            {
+                "title": "Head of Growth, Sooma Medical",
+                "seniority": "Mid"
+            }
+        ],
+        "lead_score": 60,
+        "sales_argument": "Why this company? Cloud2's recent funding and revenue growth indicate a capacity gap that we can help fill with our junior and mid-level professionals. Why now? With their acquisition of KeyCore, they're actively recruiting to accelerate growth.",
+        "sources": [
+            "https://www.aaltoee.fi/en/our-customers",
+            "https://www.theseus.fi/bitstream/10024/748842/3/Jokinen_Lauri.pdf",
+            "https://cloud2.net/cloud2",
+            "https://capman.com/stories/backing-cloud2-a-multi-cloud-pioneer-scaling-across-the-nordics/",
+            "https://www.aaltoee.fi/en",
+            "https://www.investing.com/equities/cloud",
+            "https://cloud2.net/partners",
+            "https://growthlist.co/finland-startups/"
+        ]
+    },
+    {
+        "name": "Smartly.io",
+        "ticker": null,
+        "website": "https://www.smartly.io/",
+        "financial_summary": "Ticker not found in CSV.  Based on the provided context, here is a summary of Smartly.io's recent financial situation:\n\nSmartly.io has raised $22.8M in funding from Lifeline Ventures and Highland Europe, with its latest funding round being a Series B round of $20M in September 2017.\n\nThere is no mention of layoffs or any negative news. The company has had three funding rounds, with the most recent one being an acquisition financing round of $222.36M on December 18, 2019.",
+        "job_data": [
+            {
+                "title": "AI landscape",
+                "seniority": "Mid"
+            },
+            {
+                "title": "Inscripta Healthtech",
+                "seniority": "Junior"
+            },
+            {
+                "title": "Inven Productivity",
+                "seniority": "Mid"
+            },
+            {
+                "title": "Capalo AI",
+                "seniority": "Senior"
+            },
+            {
+                "title": "Cerenion Healthtech",
+                "seniority": "Mid"
+            }
+        ],
+        "lead_score": 60,
+        "sales_argument": "Why this company? Smartly.io has a clear need for Data/AI capacity with multiple open roles, including Junior and Mid-level positions. Why now? With their recent funding round in December 2019, they are likely actively recruiting to execute on their AI strategy.",
+        "sources": [
+            "https://www.cbinsights.com/company/smartlyio/financials",
+            "https://tracxn.com/d/companies/smartly.io/__Z-iyY4RnJ9GwYU5SvI0TyIrCKzniKpY2jwPXNmw6AIo",
+            "https://www.theseus.fi/bitstream/10024/499815/2/COVID-19%20Impact%20on%20the%20IT%20Industry%20in%20Finland.pdf",
+            "https://aaltodoc.aalto.fi/bitstreams/c21a0fb2-2cf8-4437-a0a1-62e4e16f9b1f/download",
+            "https://www.youtube.com/watch?v=hmvnlvoQREY",
+            "https://www.northdata.com/Smartly%C2%B7io%20Solutions%20Oy,%20Helsinki/PRH%203145736-1",
+            "https://aifinland.fi/wp-content/uploads/2025/02/en_finnishailandscape_aifinlandbusinessfinland_2025.pdf",
+            "https://www.smartly.io/"
+        ]
+    },
+    {
+        "name": "Rebl Eats",
+        "ticker": null,
+        "website": "https://www.rebleats.com/en",
+        "financial_summary": "Ticker not found in CSV.  Rebl Eats has recently completed a \u20ac15m Series A funding round in March 2024 and is profitable, with a 2-year revenue CAGR of 208.49%.",
+        "job_data": [
+            {
+                "title": "Multi-Disciplinary Technical Lead",
+                "seniority": "Senior"
+            },
+            {
+                "title": "Postdoctoral Research Fellow (Robotics and AI)",
+                "seniority": "Junior"
+            }
+        ],
+        "lead_score": 60,
+        "sales_argument": "Why this company? Rebl Eats has a clear capacity gap, as evidenced by their recent hiring of a Postdoctoral Research Fellow (Robotics and AI) and open role for a Multi-Disciplinary Technical Lead. Why now? Their recent \u20ac15m Series A funding round in March 2024 suggests they're actively investing in their AI capabilities and may need our junior/mid-level professionals to execute on their plans.",
+        "sources": [
+            "https://laura.fi/en/vacancies/",
+            "https://www.rebleats.com/en",
+            "https://finance.yahoo.com/quote/REBL.HE/",
+            "https://tracxn.com/d/companies/rebl-eats/__YCFeh2Yx5zKsKX80G5tCeElgEbDyI0_5BSCV46ZaP48",
+            "https://www.rebleats.com/en/products",
+            "https://www.mediaalantutkimussaatio.fi/wp-content/uploads/Reuters_Institute_Digital_News_Report_2018.pdf",
+            "https://www.datocms-assets.com/60124/1757528828-sifted-100_nordics-benelux.pdf",
+            "http://xob.kapsi.fi/~jpa/stm32/2021-07.log",
+            "https://www.fortunebusinessinsights.com/cloud-kitchen-market-110628"
+        ]
+    },
+    {
+        "name": "Singa",
+        "ticker": null,
+        "website": "https://singa.com/",
+        "financial_summary": "Ticker not found in CSV.  Based on the provided context, here is a summary of Singa's recent financial situation:\n\nSinga has had a successful funding history, with recent investment rounds including an Accelerator/Incubator round in January 2024, a Secondary Transaction - Private round in May 2022, and a Later Stage VC round in October 2021, all of which have contributed to the company's generating revenue status.\n\nThere is no mention of layoffs or bad news. The highlights are:\n\n* Investment rounds: Accelerator/Incubator (January 2024), Secondary Transaction - Private (May 2022), and Later Stage VC (October 2021)\n* Revenue growth: Singa has been generating revenue since at least 2017, with no indication of a decline in recent years.",
+        "job_data": [
+            {
+                "title": "Data Engineer | Singa",
+                "seniority": "Mid"
+            },
+            {
+                "title": "Senior Databricks Data Engineer/Architect",
+                "seniority": "Senior"
+            }
+        ],
+        "lead_score": 60,
+        "sales_argument": "Why this company? Singa has a clear capacity gap, as evidenced by their open Data Engineer and Senior Databricks Data Engineer/Architect roles. Why now? Their recent funding rounds indicate they're actively investing in AI and likely need 'hands on deck' to execute their strategy.",
+        "sources": [
+            "http://valcon.fi/d",
+            "https://thehub.fi/jobs/6912f1cbec344369a23f416d",
+            "https://amcham.fi/wp-content/uploads/2025/09/Finland-Fact-Pack-2025-August-Associates-x-Amcham-Finland.pdf",
+            "https://singa.com/",
+            "https://www.cgi.fi/rekrytointi/avoimet-tyopaikat",
+            "https://pitchbook.com/profiles/company/102985-93",
+            "https://graduatestudies.smu.edu.sg/phd/singa-smu-programme",
+            "https://www.investing.com/equities/finland-adrs"
+        ]
+    },
+    {
+        "name": "NoCFO",
+        "ticker": null,
+        "website": "https://nocfo.io/en",
+        "financial_summary": "Ticker not found in CSV.  Based on the provided context, here is a summary of NoCFO's recent financial situation:\n\nNoCFO has received a Pre-Seed investment of $577,095 in January 2025.\n\nThere are no mentions of acquisitions, revenue growth, or layoffs. The only notable event mentioned is the investment round, which indicates that NoCFO has secured funding to support its growth and development.",
+        "job_data": [
+            {
+                "title": "Research assistant / Master thesis worker (Automation Technology and Mechanical Engineering)",
+                "seniority": "Junior"
+            },
+            {
+                "title": "Doctoral Researchers in Generative AI and Software Engineering",
+                "seniority": "Mid"
+            },
+            {
+                "title": "Doctoral Researcher (signal processing and machine learning)",
+                "seniority": "Junior"
+            }
+        ],
+        "lead_score": 60,
+        "sales_argument": "Why this company? NoCFO has a clear need for technically trained professionals to execute their AI strategy. Why now? They've recently received funding and are actively recruiting multiple junior and mid-level roles.",
+        "sources": [
+            "https://startupcenter.aalto.fi/events/innovation-week",
+            "https://fundediq.co/funded-startups-finland/",
+            "https://nocfo.io/en/page/business-accounts",
+            "https://nocfo.io/en",
+            "https://openai.com/careers/",
+            "https://www.tuni.fi/en/about-us/working-at-tampere-universities/open-positions-at-tampere-university",
+            "https://shizune.co/investors/artificial-intelligence-vc-funds-finland",
+            "https://finance.yahoo.com/quote/NONOF/",
+            "https://growthlist.co/finland-startups/"
+        ]
+    },
+    {
+        "name": "Canonical",
+        "ticker": null,
+        "website": "www.canonical.com",
+        "financial_summary": "Ticker not found in CSV.  Based on the provided context, here is a summary of Canonical's recent financial situation:\n\nCanonical has had one grant (prize money) funding round, with no other details mentioned about their recent financial situation.\n\nThere are no highlights of investment rounds, acquisitions, or revenue growth, nor any mention of layoffs or bad news.",
+        "job_data": [
+            {
+                "title": "Summer employee positions at the Department of Computer Science",
+                "seniority": "Junior"
+            }
+        ],
+        "lead_score": 40,
+        "sales_argument": "Why this company? Canonical has a training gap, as they're hiring junior employees. Why now? They've had one grant funding round, indicating a focus on growth and development.",
+        "sources": [
+            "https://tracxn.com/d/companies/canonical/__t6bel68jJf8HhvAg7MGgLAI6mMfBN8rwUbnf5PPrLu4/funding-and-investors",
+            "https://en.ubunlog.com/Canonical-will-go-public-this-year/",
+            "https://www.linkedin.com/company/canonical",
+            "https://users.aalto.fi/~ltuuri/apu/os/ubuntu/microcloud/",
+            "https://www.solita.fi/work/how-data-travel-faster-and-better-between-suppliers-and-retailers/",
+            "https://en.wikipedia.org/wiki/Canonical_(company)",
+            "https://www.aalto.fi/en/department-of-computer-science/summer-employee-positions-at-the-department-of-computer-science-2025",
+            "https://www.investing.com/equities/finland-adrs",
+            "https://growthlist.co/finland-startups/"
+        ]
+    },
+    {
+        "name": "Digia Plc",
+        "ticker": "DIGIA.HE",
+        "website": "https://digia.co/",
+        "financial_summary": "Public Market: Stock: -16.67% (6mo change).  Based on the provided context, here is a summary of Digia Plc's recent financial situation:\n\nDigia Plc has reported profitable growth, with net sales increasing by 3.2% in April-June 2025 and 1.7% year-on-year for the January-June period, driven by growth in its Digital Solutions service area and custom software.\n\nThe highlights of Digia's recent financial situation include:\n\n* Revenue growth: Net sales increased by 3.2% in April-June 2025 and 1.7% year-on-year for the January-June period.\n* No major events or layoffs reported after the review period.\n\nThere is no mention of investment rounds, acquisitions, or significant changes in the company's financial situation beyond revenue growth.",
+        "job_data": [
+            {
+                "title": "Analytics",
+                "seniority": "Mid"
+            },
+            {
+                "title": "ERPI",
+                "seniority": "Senior"
+            },
+            {
+                "title": "Consulting",
+                "seniority": "Lead"
+            },
+            {
+                "title": "E-commerce",
+                "seniority": "Junior"
+            },
+            {
+                "title": "Software Development",
+                "seniority": "Mid"
+            },
+            {
+                "title": "Agile Development",
+                "seniority": "Senior"
+            }
+        ],
+        "lead_score": 40,
+        "sales_argument": "Why this company? Digia Plc has a growing AI capacity need with open roles in Analytics and Software Development. Why now? The company's recent revenue growth indicates an active investment in AI, making it an ideal time for us to provide the necessary junior and mid-level professionals to support their initiatives.",
+        "sources": [
+            "https://digia.co/about/",
+            "https://www.aalto.fi/en/study-options/software-and-service-engineering-master-of-science-technology",
+            "https://finance.yahoo.com/quote/DIGIA.HE/profile/",
+            "https://de.linkedin.com/company/digia_5119?trk=ppro_cprof",
+            "https://digia.fi/en/careers/career-compass/",
+            "https://www.linkedin.com/company/digia_5119",
+            "https://mb.cision.com/Main/5019/4215550/3602268.pdf",
+            "https://pitchbook.com/profiles/company/11970-91",
+            "https://corporate.dna.fi/company/executiveteam"
+        ]
+    },
+    {
+        "name": "Futurice",
+        "ticker": null,
+        "website": "https://www.futurice.com",
+        "financial_summary": "Ticker not found in CSV.  Based on the provided context, here is a summary of Futurice's recent financial situation:\n\nFuturice has not disclosed any significant changes in its financial situation recently, but it was ranked 146th amongst 50,649 active competitors, with 295 funded and 797 exited companies.\n\nHowever, I did find some highlights that might be relevant:\n\n* No recent investment rounds or acquisitions were mentioned.\n* The company's revenue growth is not explicitly stated, but it has been operating as an application development service provider since its founding in 2000.\n* There is no indication of layoffs or any negative financial news.\n\nPlease note that the provided context only contains general information about Futurice and does not provide detailed financial data.",
+        "job_data": [
+            {
+                "title": "Analyst, Analytics Engineer",
+                "seniority": "Mid"
+            },
+            {
+                "title": "Data Analyst, Data Scientist",
+                "seniority": "Junior/Mid"
+            },
+            {
+                "title": "DevOps Engineer",
+                "seniority": "Mid"
+            },
+            {
+                "title": "Machine Learning Engineer",
+                "seniority": "Senior"
+            },
+            {
+                "title": "Software Developer",
+                "seniority": "Junior"
+            },
+            {
+                "title": "Software Engineer",
+                "seniority": "Mid"
+            }
+        ],
+        "lead_score": 40,
+        "sales_argument": "Why this company? Futurice has a need for technically trained professionals to build their Data/AI capacity. Why now? They have been operating as an application development service provider since 2000 and are actively recruiting for various roles.",
+        "sources": [
+            "https://hello.futurice.com/hubfs/Futurice_Digital_Energy40_Report_2025.pdf",
+            "https://www.aalto.fi/en/study-options/machine-learning-data-science-and-artificial-intelligence-master-of-science-technology",
+            "https://www.aaltobt.fi/category/jobs/page/12/",
+            "https://www.futurice.com/contact",
+            "https://tracxn.com/d/companies/futurice/__OEJI_ipj_4UlAPULQvrUWXM1QicIi4tIFJRT3UsD1xs",
+            "https://www.futurice.com/about/our-journey",
+            "https://www.nasdaq.com/european-market-activity/shares",
+            "https://www.aaltoee.fi/en/programs/cdoiq-nordic-symposium-2025"
+        ]
+    },
+    {
+        "name": "WithSecure",
+        "ticker": "WITH.HE",
+        "website": "https://www.withsecure.com/",
+        "financial_summary": "Public Market: Stock: 77.73% (6mo change).  Based on the provided reports, here is a summary of WithSecure's recent financial situation:\n\nWithSecure has reported revenue growth of 6% in 2024 and 2% in Q3 2025, with a focus on cloud-based security products and services driving growth, while also improving its gross margin.\n\nHighlights include:\n\n* Revenue growth: WithSecure's revenue grew by 6% in 2024 and 2% in Q3 2025.\n* Cloud-based security products and services: The company has seen strong growth in this area, with an annual growth rate of 9% in 2024.\n* Gross margin improvement: WithSecure's gross margin improved to 81.3% in Q3 2025, up from 79.6% previously.\n\nThere is no mention of layoffs or significant changes in the company's financial situation that would be considered \"bad news\".",
+        "job_data": [
+            {
+                "title": "Experienced DevOps & AI Consultant",
+                "seniority": "Senior"
+            },
+            {
+                "title": "DevOps Engineer, DevOps Platforms",
+                "seniority": "Mid"
+            },
+            {
+                "title": "Azure AI Infrastructure Specialist, Technology Platforms",
+                "seniority": "Senior"
+            },
+            {
+                "title": "Expert DevOps/SRE Engineer for a new strategic Data Platform",
+                "seniority": "Senior"
+            }
+        ],
+        "lead_score": 40,
+        "sales_argument": "Why this company? WithSecure's recent revenue growth and focus on cloud-based security products and services indicate a capacity gap that we can help fill with our technically trained, business-oriented JUNIORS and MID-LEVEL professionals. Why now? The fact that they're actively recruiting for multiple roles suggests they're looking to scale their AI capabilities quickly.",
+        "sources": [
+            "https://www.cnbc.com/quotes/WITH",
+            "https://www.kyberturvallisuuskeskus.fi/sites/default/files/media/file/Applying%20AI%20in%20cybersecurity_EN.pdf",
+            "https://www.withsecure.com/content/dam/with-secure/en/investor/materials/WithSecure_Annual_Report_2024.pdf",
+            "https://pestipaivat.fi/en/company/?id=126",
+            "https://www.marketscreener.com/news/withsecure-oyj-report-q3-2025-ce7d5ddada8fff24",
+            "https://www.withsecure.com/userguides/",
+            "https://www.withsecure.com/en/about-us/investor-relations/share",
+            "https://www.withsecure.com/en/about-us/legal",
+            "https://englishjobs.fi/jobs/devops"
+        ]
+    },
+    {
+        "name": "Tenth Revolution Group",
+        "ticker": null,
+        "website": "https://www.tenthrevolution.com/",
+        "financial_summary": "Ticker not found in CSV.  Based on the provided context, here is a summary of Tenth Revolution Group's recent financial situation:\n\nTenth Revolution Group's estimated annual revenue is currently $392.6 million per year, with no significant investment rounds, acquisitions, or revenue growth mentioned in the recent reports.\n\nHowever, it's worth noting that there was an acquisition event in 2016 when TPG acquired the company. Additionally, there were some staffing industry news articles mentioning the company's financial performance, including a report on Frank Recruitment's full-year revenue increase and return to profit, which may be relevant to Tenth Revolution Group as a competitor.\n\nThere is no mention of layoffs or negative financial news in the provided reports.",
+        "job_data": [
+            {
+                "title": "AI and Digital Transformation Training Programs",
+                "seniority": "Mid"
+            },
+            {
+                "title": "P1 CEO IT Consultancy",
+                "seniority": "Senior"
+            },
+            {
+                "title": "P2 CEO Software Development",
+                "seniority": "Senior"
+            },
+            {
+                "title": "P3 Senior Consultant IT Service and Consultancy",
+                "seniority": "Senior"
+            },
+            {
+                "title": "P4 Founder, Chairman Software Development",
+                "seniority": "Lead"
+            },
+            {
+                "title": "P5 Project Lead IT Consultancy",
+                "seniority": "Mid"
+            }
+        ],
+        "lead_score": 40,
+        "sales_argument": "Why this company? Tenth Revolution Group has a capacity gap in their AI and Digital Transformation Training Programs, which aligns with our expertise in building Data/AI capacity for clients. Why now? With no recent funding or layoffs mentioned, it seems they are actively recruiting to fill these roles.",
+        "sources": [
+            "https://www.aaltoee.fi/en/themes/ai-and-digital-transformation?dl=1",
+            "https://tracxn.com/d/companies/tenth-revolution-group/__0p4Y6a3jBiZST3pmw9PAYTi8QcWaobmkRFvAXVpVLPQ",
+            "https://trepo.tuni.fi/bitstream/10024/149943/2/LianBohui.pdf",
+            "https://www.linkedin.com/company/tenthrevolution",
+            "https://growjo.com/company/Tenth_Revolution_Group",
+            "https://www.tenthrevolution.com/",
+            "https://www.sitra.fi/wp-content/uploads/2025/03/sitra-applying-ai-in-key-european-industries.pdf",
+            "https://www.businesswire.com/news/home/20200428005304/en/Tenth-Revolution-Group-Acquires-Top-AWS-Solutions-Provider-Rebura"
+        ]
+    },
+    {
+        "name": "frank ai",
+        "ticker": null,
+        "website": "https://franks.ai/",
+        "financial_summary": "Ticker not found in CSV.  Frank.AI has had a tumultuous financial situation, with a seed round of $200K in 2015 and subsequent accelerator/incubator funding, but ultimately went out of business in August 2020.\n\nNotable highlights include:\n\n* No significant investment rounds or acquisitions mentioned\n* Revenue growth is not explicitly stated, as the current revenue is listed as \"unknown\"\n* Unfortunately, Frank.AI's financial situation took a turn for the worse, with the company going out of business in August 2020.",
+        "job_data": [
+            {
+                "title": "AI-DOC spring 2024 - Finnish Center for Artificial Intelligence",
+                "seniority": "Junior"
+            },
+            {
+                "title": "Researcher",
+                "seniority": "Mid"
+            }
+        ],
+        "lead_score": 40,
+        "sales_argument": "Why this company? They have a clear need for Data/AI capacity to execute their AI strategy. Why now? With no recent funding or high growth, they're likely looking to fill immediate gaps rather than planning for future expansion.",
+        "sources": [
+            "https://franks.ai/upgrade?ref=SideBarScroll",
+            "https://oulurepo.oulu.fi/bitstream/10024/55558/1/nbnfioulu-202505023052.pdf",
+            "https://franks.ai/privacy",
+            "https://fcai.fi/doctoral-program-spring",
+            "https://pitchbook.com/profiles/company/179873-47",
+            "https://companiesmarketcap.com/franks-international/revenue/",
+            "https://companiesmarketcap.com/franks-international/marketcap/",
+            "https://www.sttinfo.fi/tiedote/70500741/experian-named-to-fortunes-2024-100-best-workplaces-in-technology-list?publisherId=58763726&lang=en",
+            "https://aifinland.fi/wp-content/uploads/2025/02/en_finnishailandscape_aifinlandbusinessfinland_2025.pdf"
+        ]
+    },
+    {
+        "name": "MeetingPackage",
+        "ticker": null,
+        "website": "'https://fed.meetingpackage.com/'",
+        "financial_summary": "Ticker not found in CSV.  Based on the provided context, here is a summary of MeetingPackage's recent financial situation:\n\nMeetingPackage has raised a total of $8.31M across unknown funding rounds to date, with no recent acquisition or significant revenue growth mentioned.\n\nNote: The score for the second context suggests that it may not be entirely up-to-date information, but it does provide some insight into the company's current status.",
+        "job_data": [
+            {
+                "title": "Postdoctoral Research Fellow (Robotics and AI)",
+                "seniority": "Senior"
+            },
+            {
+                "title": "Doctoral Researcher (simulation-based inference)",
+                "seniority": "Junior"
+            },
+            {
+                "title": "Research assistant / Master thesis worker (Automation Technology and Mechanical Engineering)",
+                "seniority": "Junior"
+            },
+            {
+                "title": "Doctoral Researchers in Generative AI and Software Engineering",
+                "seniority": "Junior"
+            }
+        ],
+        "lead_score": 40,
+        "sales_argument": "Why this company? MeetingPackage has a clear need for technically trained, business-oriented JUNIORS and MID-LEVEL professionals to execute their AI strategy. Why now? With no recent funding or high growth mentioned, it seems they're actively recruiting to fill these gaps.",
+        "sources": [
+            "https://pitchbook.com/profiles/company/117289-72",
+            "https://fed.meetingpackage.com/",
+            "https://fcai.fi/winter-2025-researcher-positions-in-ai-and-machine-learning",
+            "https://meetingpackage.com/",
+            "https://www.nasdaq.com/sv/european-market-activity/shares",
+            "https://tracxn.com/d/companies/meetingpackage/__kJQz_xBz7m22zqo0VD14tjRkxkuKEzZiaoMs__yklxc",
+            "https://www.tuni.fi/en/about-us/working-at-tampere-universities/open-positions-at-tampere-university",
+            "https://composio.dev/blog/n8n-vs-agent-builder",
+            "https://www.investing.com/equities/finland-adrs"
+        ]
+    },
+    {
+        "name": "Upnova",
+        "ticker": null,
+        "website": "https://upnova.io/",
+        "financial_summary": "Ticker not found in CSV.  There is no information about Upnova's recent financial situation as it is not mentioned in the provided context. The context only includes data and statistics about Finnish startups' funding raised in 2024 and 2025, but does not mention Upnova specifically.",
+        "job_data": [
+            {
+                "title": "Senior Data Engineer \u2013 Stockholm",
+                "seniority": "Senior"
+            },
+            {
+                "title": "AI Developer \u2013 Stockholm",
+                "seniority": "Junior/Mid"
+            },
+            {
+                "title": "Senior Dynamics365 Udvikler",
+                "seniority": "Senior"
+            },
+            {
+                "title": "Data Analyst \u2013 Future Talent Network",
+                "seniority": "Junior/Mid"
+            },
+            {
+                "title": "Senior Data Scientist",
+                "seniority": "Senior"
+            },
+            {
+                "title": "Data Engineers till G\u00f6teborg",
+                "seniority": "Mid/Lead"
+            },
+            {
+                "title": "Machine Learning Architect",
+                "seniority": "Senior"
+            },
+            {
+                "title": "Data Architect to build modern data solutions",
+                "seniority": "Senior"
+            }
+        ],
+        "lead_score": 40,
+        "sales_argument": "Why this company? Upnova has a clear need for technically trained, business-oriented JUNIORS and MID-LEVEL professionals to build Data/AI capacity. Why now? With no information about recent funding or financial distress, it's likely they're actively recruiting to fill these gaps.",
+        "sources": [
+            "https://en.ain.ua/2025/04/08/finnish-venture-capital-association-report/",
+            "https://www.cnbc.com/quotes/SPINN-FI",
+            "https://www.solita.fi/join-us/",
+            "https://upnova.org/pages/contact",
+            "https://www.novami.com/careers/working-at-nova/",
+            "https://www.helsinki.fi/en/about-us/careers/open-positions",
+            "https://upnova.io/",
+            "https://spinnova.com/about/",
+            "https://growthlist.co/finland-startups/"
+        ]
+    },
+    {
+        "name": "Ventura Brands",
+        "ticker": null,
+        "website": "https://venturabrands.com/",
+        "financial_summary": "Ticker not found in CSV.  Based on the provided context, there is no information about Ventura Brands' recent financial situation. The text only mentions a list of funded Finnish startups for 2025 and a survey of investment returns from the Finnish PEVC in 2025, but neither of these sources provides information about Ventura Brands specifically.\n\nHowever, if you're looking for general insights on the Finnish startup ecosystem or venture capital landscape, I can try to summarize some key points:\n\n* The list of funded Finnish startups for 2025 shows a total funding raised of $35.4 million across various sectors.\n* The survey of investment returns from the Finnish PEVC in 2025 indicates that Finnish buyout and growth funds have improved their TVPI (total value to paid-in capital) to 1.6x, with IRR increasing to 14.8%.\n\nPlease note that these insights are not specific to Ventura Brands or any other company mentioned in the provided context.",
+        "job_data": [
+            {
+                "title": "AI Researcher",
+                "seniority": "Mid"
+            },
+            {
+                "title": "Data Scientist",
+                "seniority": "Senior"
+            },
+            {
+                "title": "Machine Learning Engineer",
+                "seniority": "Lead"
+            }
+        ],
+        "lead_score": 40,
+        "sales_argument": "Why this company? Ventura Brands has a training gap in their AI capacity, which Skillio can help fill with our technically trained and business-oriented junior and mid-level professionals. Why now? With no recent funding or high growth mentioned, it seems they are actively recruiting to execute on their AI strategy.",
+        "sources": [
+            "https://tesi.fi/wp-content/uploads/2025/04/Survey-of-investment-returns-from-the-Finnish-PEVC-2025.pdf",
+            "https://venturabrands.com/",
+            "https://www.careers-page.com/venturabrands",
+            "https://www.prnewswire.com/news-releases/ventura-foods-to-acquire-dyma-brands-302132720.html",
+            "https://users.jyu.fi/~nieminen/research/dissertation2016/survey/wok_2015-08-05.txt",
+            "https://publications.vtt.fi/pdf/technology/2025/T440.pdf",
+            "https://hup.fi/books/38/files/2aac2ecf-8da2-40ce-9ca7-32fd1fc427a3.pdf",
+            "https://growthlist.co/finland-startups/"
+        ]
+    },
+    {
+        "name": "Measurlabs",
+        "ticker": null,
+        "website": "https://measurlabs.com/",
+        "financial_summary": "Ticker not found in CSV.  Based on the provided context, here is a summary of Measurlabs' recent financial situation:\n\nMeasurlabs has raised $4.88M in funding and has 36 total employees, with its current revenue not disclosed.\n\nThere are no mentions of investment rounds, acquisitions, or revenue growth, but there is no indication of bad news such as layoffs either.",
+        "job_data": [
+            {
+                "title": "Careers | OpenAI",
+                "seniority": "Mid"
+            },
+            {
+                "title": "OpenAI Residency",
+                "seniority": "Junior"
+            }
+        ],
+        "lead_score": 40,
+        "sales_argument": "Why this company? Measurlabs has a clear need for Data/AI capacity, as they've recently raised funding and are actively recruiting. Why now? With their recent influx of capital, it's the perfect time for them to invest in building out their team with our junior and mid-level professionals.",
+        "sources": [
+            "https://measurlabs.com/",
+            "https://www.theseus.fi/bitstream/handle/10024/877302/URNISBN9789523445956.pdf?sequence=6&isAllowed=y",
+            "https://measurlabs.com/about/",
+            "https://www.linkedin.com/company/measurabl",
+            "https://pitchbook.com/profiles/company/465226-66",
+            "https://sifted.eu/leaderboards/nordics-benelux-2025",
+            "https://composio.dev/blog/n8n-vs-agent-builder",
+            "https://openai.com/careers/"
+        ]
+    },
+    {
+        "name": "Swarmia",
+        "ticker": null,
+        "website": "https://www.swarmia.com/",
+        "financial_summary": "Ticker not found in CSV.  Based on the provided context and data, here is a summary of Swarmia's recent financial situation:\n\nSwarmia has an estimated annual revenue of $5.7 million per year, with no significant investment rounds, acquisitions, or layoffs mentioned in the provided data.\n\nThe only notable information is that Swarmia started supporting self-service subscriptions through their app, allowing smaller customers to purchase their services without needing to interact with the company directly. This move likely contributed to their revenue growth and customer acquisition.",
+        "job_data": [
+            {
+                "title": "Software Engineer \u2013 AI-Driven Solutions",
+                "seniority": "Mid"
+            },
+            {
+                "title": "Backend Software Engineer - Fully Remote (EU)",
+                "seniority": "Mid"
+            },
+            {
+                "title": "Satellite Operations Software Developer (Flight Dynamics / In-Orbit / Constellation / Space)",
+                "seniority": "Senior"
+            },
+            {
+                "title": "Software Engineer (Data & Video Systems)",
+                "seniority": "Mid"
+            },
+            {
+                "title": "Senior Software Engineer - Engineering Workflow and CI",
+                "seniority": "Senior"
+            },
+            {
+                "title": "Product Software Engineer",
+                "seniority": "Mid"
+            }
+        ],
+        "lead_score": 40,
+        "sales_argument": "Why this company? Swarmia has a clear need for Data/AI capacity to support their self-service subscriptions and revenue growth. Why now? They are actively recruiting multiple mid-level professionals, indicating a volume need that Skillio can help fill.",
+        "sources": [
+            "https://tracxn.com/d/companies/swarmia/__3EkVJl86yqUhSmHPIcHL6I3AXtQ7a0X0IqyLjUch0vc",
+            "https://innohub.fi/youtube_kanava/slush/",
+            "https://growjo.com/company/Swarmia",
+            "https://duunitori.fi/tyopaikat/tyo/senior-software-engineer-scsom-19078227",
+            "https://www.cbinsights.com/company/swarmia/financials",
+            "https://englishjobs.fi/in/finland-proper/software",
+            "https://www.swarmia.com/blog/2024-in-review/",
+            "https://www.swarmia.com/changelog/",
+            "https://www.swarmia.com/about-us/"
+        ]
+    },
+    {
+        "name": "Aavuus",
+        "ticker": null,
+        "website": "https://www.aavuus.com/",
+        "financial_summary": "Ticker not found in CSV.  There is no information about Aavuus's recent financial situation as it is not mentioned in the provided context. However, I can summarize the overall financial situation of Finnish startups based on the given data:\n\nFinnish startups have already raised over \u20ac1.5 billion at a record pace, with significant rounds expected to lift the total for 2025, and notable investments announced in Oura (\u20ac777 million) and IQM (\u20ac275 million).\n\nSome highlights include:\n\n* Investment rounds: Oura's largest funding round in Finnish history (\u20ac777 million), IQM's fifth-largest round (\u20ac275 million)\n* No mention of acquisitions or revenue growth\n* No bad news (layoffs) mentioned",
+        "job_data": [
+            {
+                "title": "Senior Data Engineer \u2013 Stockholm",
+                "seniority": "Senior"
+            },
+            {
+                "title": "AI Developer \u2013 Stockholm",
+                "seniority": "Junior/Mid"
+            },
+            {
+                "title": "Senior Dynamics365 Udvikler",
+                "seniority": "Senior"
+            },
+            {
+                "title": "Data Analyst \u2013 Future Talent Network",
+                "seniority": "Junior/Mid"
+            },
+            {
+                "title": "Senior Data Scientist",
+                "seniority": "Senior"
+            },
+            {
+                "title": "AI Tech Lead \u2013 Pioneering AI Solutions in IT Consulting",
+                "seniority": "Lead"
+            },
+            {
+                "title": "Kokenut Data Engineer",
+                "seniority": "Senior"
+            }
+        ],
+        "lead_score": 0,
+        "sales_argument": "Could not score due to data issues.",
+        "sources": [
+            "https://spacefinland.fi/en/space-business-forum-en",
+            "https://startupcenter.aalto.fi/events/innovation-week",
+            "https://www.solita.fi/join-us/",
+            "https://www.helsinki.fi/en/about-us/careers/open-positions",
+            "https://esastar-esamatch-ext.sso.esa.int/my-company-profile/49694",
+            "https://www.aavuus.com/",
+            "https://ca.finance.yahoo.com/quote/%5ENQFI8000EURN/",
+            "https://paaomasijoittajat.fi/en/ajankohtaista/press-releases/30915/finnish-startups-have-already-raised-over-e1-5-billion-at-a-record-pace/",
+            "https://growthlist.co/finland-startups/"
+        ]
+    }
+]
