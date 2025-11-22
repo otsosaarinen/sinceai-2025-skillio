@@ -276,48 +276,52 @@ function App() {
   }
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center p-4 transition-opacity duration-700 ${isFading ? 'opacity-0' : 'opacity-100'}`}>
-      <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12 max-w-md w-full">
-        <div className="text-center">
-          <h1 className="text-3xl md:text-4xl font-bold text-slate-800 mb-2">
-            AI Lead Agent
-          </h1>
-          <p className="text-slate-600 mb-8">
-            Start identifying potential customers
-          </p>
+    <div className={`min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4 transition-opacity duration-700 ${isFading ? 'opacity-0' : 'opacity-100'}`}>
+      <div className="max-w-5xl w-full">
+        <div className="text-center space-y-8 md:space-y-12">
+          <div className="space-y-6">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-slate-900 leading-tight">
+              AI Lead Agent
+            </h1>
+            <p className="text-xl md:text-2xl lg:text-3xl text-slate-600 font-light max-w-3xl mx-auto">
+              Start identifying potential customers with intelligent automation
+            </p>
+          </div>
 
-          {!isLoading && !showStartAnimation ? (
-            <button
-              onClick={handleStart}
-              className="w-60 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-all duration-200 transform hover:scale-105 hover:cursor-pointer active:scale-95 shadow-lg hover:shadow-xl"
-            >
-              Start
-            </button>
-          ) : showStartAnimation ? (
-            <div className="space-y-4 animate-fade-in">
-              <div className="flex justify-center">
-                <div className="relative w-16 h-16">
-                  <div className="absolute top-0 left-0 w-full h-full border-4 border-blue-200 rounded-full animate-pulse"></div>
-                  <div className="absolute top-0 left-0 w-full h-full border-4 border-blue-600 rounded-full border-t-transparent animate-spin-slow"></div>
+          <div className="pt-8">
+            {!isLoading && !showStartAnimation ? (
+              <button
+                onClick={handleStart}
+                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold text-lg px-12 py-4 rounded-xl transition-all duration-200 transform hover:scale-105 hover:cursor-pointer active:scale-95 shadow-2xl hover:shadow-3xl"
+              >
+                Start
+              </button>
+            ) : showStartAnimation ? (
+              <div className="space-y-6 animate-fade-in">
+                <div className="flex justify-center">
+                  <div className="relative w-20 h-20">
+                    <div className="absolute top-0 left-0 w-full h-full border-4 border-blue-200 rounded-full animate-pulse"></div>
+                    <div className="absolute top-0 left-0 w-full h-full border-4 border-blue-600 rounded-full border-t-transparent animate-spin-slow"></div>
+                  </div>
                 </div>
+                <p className="text-slate-600 font-medium text-lg animate-pulse">
+                  Starting...
+                </p>
               </div>
-              <p className="text-slate-600 font-medium animate-pulse">
-                Starting...
-              </p>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              <div className="flex justify-center">
-                <div className="relative w-16 h-16">
-                  <div className="absolute top-0 left-0 w-full h-full border-4 border-blue-200 rounded-full"></div>
-                  <div className="absolute top-0 left-0 w-full h-full border-4 border-blue-600 rounded-full border-t-transparent animate-spin"></div>
+            ) : (
+              <div className="space-y-6">
+                <div className="flex justify-center">
+                  <div className="relative w-20 h-20">
+                    <div className="absolute top-0 left-0 w-full h-full border-4 border-blue-200 rounded-full"></div>
+                    <div className="absolute top-0 left-0 w-full h-full border-4 border-blue-600 rounded-full border-t-transparent animate-spin"></div>
+                  </div>
                 </div>
+                <p className="text-slate-600 font-medium text-lg">
+                  Processing...
+                </p>
               </div>
-              <p className="text-slate-600 font-medium">
-                Processing...
-              </p>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>
