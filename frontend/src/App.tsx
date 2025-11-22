@@ -139,8 +139,8 @@ function App() {
 
   if (jobs.length > 0) {
     return (
-      <div className={`min-h-screen bg-white p-4 md:p-8 transition-opacity duration-700 ${isFading ? 'opacity-0' : 'opacity-100'}`}>
-        <div className="max-w-6xl mx-auto">
+      <div className={`min-h-screen bg-white p-4 md:p-8 transition-opacity duration-700 flex items-center justify-center ${isFading ? 'opacity-0' : 'opacity-100'}`}>
+        <div className="max-w-6xl w-full border border-slate-200 rounded-xl shadow-md p-6 md:p-8 bg-white">
           <div className="mb-8 flex items-center justify-between">
             <div>
               <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-2">
