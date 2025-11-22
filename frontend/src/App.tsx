@@ -7,6 +7,8 @@ interface Job {
   description: string
   rating: number
   url: string
+  company: string
+  seniority: string
 }
 
 function App() {
@@ -34,24 +36,30 @@ function App() {
       const mockJobs: Job[] = [
         {
           id: 1,
-          name: 'Senior Full Stack Developer',
+          name: 'Full Stack Developer',
           description: 'We are looking for an experienced full stack developer to join our team. You will work on building scalable web applications using modern technologies. Experience with React, Node.js, and cloud services required.',
           rating: 87,
-          url: 'https://example.com/jobs/senior-full-stack-developer'
+          url: 'https://example.com/jobs/senior-full-stack-developer',
+          company: 'TechCorp Solutions',
+          seniority: 'Senior'
         },
         {
           id: 2,
           name: 'AI/ML Engineer',
           description: 'Join our AI team to develop cutting-edge machine learning models. You will work on NLP, computer vision, and recommendation systems. Strong Python skills and experience with TensorFlow or PyTorch required.',
           rating: 92,
-          url: 'https://example.com/jobs/ai-ml-engineer'
+          url: 'https://example.com/jobs/ai-ml-engineer',
+          company: 'InnovateAI',
+          seniority: 'Mid-Level'
         },
         {
           id: 3,
           name: 'DevOps Engineer',
           description: 'We need a DevOps engineer to help us scale our infrastructure. You will manage CI/CD pipelines, container orchestration, and cloud infrastructure. Experience with Kubernetes, Docker, and AWS/GCP required.',
           rating: 79,
-          url: 'https://example.com/jobs/devops-engineer'
+          url: 'https://example.com/jobs/devops-engineer',
+          company: 'CloudScale Inc',
+          seniority: 'Junior'
         }
       ]
 
@@ -90,24 +98,30 @@ function App() {
         const mockJobs: Job[] = [
           {
             id: 1,
-            name: 'Senior Full Stack Developer',
+            name: 'Full Stack Developer',
             description: 'We are looking for an experienced full stack developer to join our team. You will work on building scalable web applications using modern technologies. Experience with React, Node.js, and cloud services required.',
             rating: 87,
-            url: 'https://example.com/jobs/senior-full-stack-developer'
+            url: 'https://example.com/jobs/senior-full-stack-developer',
+            company: 'TechCorp Solutions',
+            seniority: 'Senior'
           },
           {
             id: 2,
             name: 'AI/ML Engineer',
             description: 'Join our AI team to develop cutting-edge machine learning models. You will work on NLP, computer vision, and recommendation systems. Strong Python skills and experience with TensorFlow or PyTorch required.',
             rating: 92,
-            url: 'https://example.com/jobs/ai-ml-engineer'
+            url: 'https://example.com/jobs/ai-ml-engineer',
+            company: 'InnovateAI',
+            seniority: 'Mid-Level'
           },
           {
             id: 3,
             name: 'DevOps Engineer',
             description: 'We need a DevOps engineer to help us scale our infrastructure. You will manage CI/CD pipelines, container orchestration, and cloud infrastructure. Experience with Kubernetes, Docker, and AWS/GCP required.',
             rating: 79,
-            url: 'https://example.com/jobs/devops-engineer'
+            url: 'https://example.com/jobs/devops-engineer',
+            company: 'CloudScale Inc',
+            seniority: 'Junior'
           }
         ]
 
@@ -183,10 +197,46 @@ function App() {
                   transitionDelay: showJobs ? `${index * 100}ms` : '0ms'
                 }}
               >
-                <div className="flex items-start justify-between mb-4">
-                  <h2 className="text-xl font-bold text-slate-900 flex-1 mr-4 leading-tight">
-                    {job.name}
-                  </h2>
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex-1 mr-4">
+                    <h2 className="text-xl font-bold text-slate-900 leading-tight mb-2">
+                      {job.name}
+                    </h2>
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center gap-1.5">
+                        <svg
+                          className="w-4 h-4 text-slate-500 flex-shrink-0"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                          />
+                        </svg>
+                        <span className="text-sm font-medium text-slate-700 truncate">{job.company}</span>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <svg
+                          className="w-4 h-4 text-slate-500 flex-shrink-0"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+                          />
+                        </svg>
+                        <span className="text-sm font-medium text-slate-600">{job.seniority}</span>
+                      </div>
+                    </div>
+                  </div>
                   <div className={`px-3 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap shadow-sm ${getRatingColor(job.rating)}`}>
                     {job.rating}/100
                   </div>
