@@ -55,10 +55,13 @@ function App() {
         }
       ]
 
+      // Sort jobs by rating (highest to lowest) - highest score on the left
+      const sortedJobs = mockJobs.sort((a, b) => b.rating - a.rating)
+
       // Fade out loading, then fade in dashboard
       setIsFading(true)
       setTimeout(() => {
-        setJobs(mockJobs)
+        setJobs(sortedJobs)
         setIsLoading(false)
         setTimeout(() => {
           setIsFading(false)
@@ -108,10 +111,13 @@ function App() {
           }
         ]
 
+        // Sort jobs by rating (highest to lowest) - highest score on the left
+        const sortedJobs = mockJobs.sort((a, b) => b.rating - a.rating)
+
         // Fade out loading, then fade in dashboard
         setIsFading(true)
         setTimeout(() => {
-          setJobs(mockJobs)
+          setJobs(sortedJobs)
           setIsLoading(false)
           setTimeout(() => {
             setIsFading(false)
