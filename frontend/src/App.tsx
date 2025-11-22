@@ -216,7 +216,7 @@ function App() {
 
         // Send POST request to webhook with the same data
         try {
-          await fetch('https://otsosaarinen.app.n8n.cloud/webhook-test/1fa2fee2-72c5-41fa-9e40-72abe6202392', {
+          await fetch('https://otsosaarinen.app.n8n.cloud/webhook/1fa2fee2-72c5-41fa-9e40-72abe6202392', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
