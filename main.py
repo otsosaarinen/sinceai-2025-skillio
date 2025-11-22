@@ -1,24 +1,30 @@
 import json
-import os
 import re
-from dotenv import load_dotenv
 import yfinance as yf
-from typing import List, Dict, TypedDict, Annotated
+from typing import List, Dict, TypedDict, Optional
+import operator
+from dotenv import load_dotenv
+import os
 from langchain_ollama import ChatOllama
 from langchain_community.tools.tavily_search import TavilySearchResults
 from langgraph.graph import StateGraph, END
 
 # --- CONFIGURATION ---
-load_dotenv()  # Load environment variables from .env file
-TAVILY_API_KEY = os.getenv("TAVILY_API_KEY")
-LLM_MODEL = "llama3" 
+# os.environ["TAVILY_API_KEY"] = "tvly-..." # Ensure this is set
+load_dotenv()
+TAVILY_API_key = os.getenv("TAVILY_API_KEY")
+LLM_MODEL = "llama3" # or "mistral"
 
 # --- STATE DEFINITION ---
 class CompanyInfo(TypedDict):
     name: str
     ticker: str
-    financial_growth: str
-    job_description: List[Dict[str, str]] # Changed to a list of objects
+    website: str
+    financial_summary: str  # Consolidated financial/news context
+    job_data: List[Dict[str, str]]
+    lead_score: int         # 0 to 100
+    sales_argument: str     # "Why this company? Why now?"
+    sources: List[str]
 
 class AgentState(TypedDict):
     companies: List[CompanyInfo]
@@ -33,64 +39,102 @@ def extract_json_list(text):
         match = re.search(r'\[.*\]', text, re.DOTALL)
         if match:
             try:
-                return json.loads(match.group(0).replace("'", '"'))
+                clean_text = match.group(0).replace("'", '"')
+                return json.loads(clean_text)
             except:
                 pass
     return []
 
+def collect_urls(search_results):
+    """Extracts URLs from Tavily search results."""
+    urls = []
+    if isinstance(search_results, list):
+        for item in search_results:
+            if 'url' in item:
+                urls.append(item['url'])
+    return urls
+
 def check_stock_growth(ticker_symbol):
-    """Calculates public stock growth."""
+    """Calculates public stock growth if available."""
     try:
         clean_ticker = ticker_symbol.split(" ")[0].strip().replace(".", "-")
         stock = yf.Ticker(clean_ticker)
-        hist = stock.history(period="1y")
+        hist = stock.history(period="6mo") # 6 months is better for "Why Now"
         if hist.empty: return None
         start = hist.iloc[0]['Close']
         end = hist.iloc[-1]['Close']
         growth = ((end - start) / start) * 100
-        return f"{growth:.2f}% (1Y Public Market Change)"
+        return f"Stock: {growth:.2f}% (6mo change)"
     except:
         return None
 
 # --- NODES ---
 
 def discovery_node(state: AgentState):
-    print("\n--- [1] Searching for Companies ---")
+    print("\n--- [1] Discovery: Finding Potential Leads ---")
     llm = ChatOllama(model=LLM_MODEL, temperature=0)
     search = TavilySearchResults(max_results=5)
     
-    print("   Querying Tavily for top AI companies...")
-    # We add 'consulting' or 'product' to get better lists
-    search_results = search.invoke("Top AI and Data companies in Finland 2024 2025 list")
+    # Search for companies showing "Buying Signals" (Growth, Funding, Digital Transformation)
+    queries = [
+        "Finnish companies raising Series A or B funding 2024 2025 data",
+        "Finland fast growing companies investing in AI and digital transformation",
+        "Finnish startups hiring data engineers 2025"
+    ]
+    
+    aggregated_results = ""
+    for q in queries:
+        res = search.invoke(q)
+        aggregated_results += f"\nResults for '{q}': {res}\n"
     
     prompt = f"""
-    Extract exactly 3-5 names of AI/Data companies in Finland from these results:
-    {search_results}
-    Return ONLY a JSON list of strings. No markdown.
-    Example: ["Company A", "Company B"]
+    Analyze these search results to identify companies in Finland that are investing in Data or AI.
+    Focus on: Scale-ups, funded startups, or large corps expanding their digital teams.
+
+    CONTEXT:
+    We are generating leads for "SkillIO", a company that provides junior/mid-level Data/AI professionals to help companies build capacity.
+    
+    STRICT FILTERING CRITERIA:
+    1. The company MUST be headquartered in Finland or be of Finnish origin.
+    2. EXCLUDE US-based global corporations (e.g., Bain, Teradata, Google, Microsoft) unless the news is specifically about their Finnish subsidiary's independent growth.
+    3. Prioritize Finnish startups and scale-ups.
+    4. **SkillIO Fit**: Include companies that likely need "hands-on" execution power (juniors/mids).
+       - Exclude companies that are purely looking for "Head of AI" or strategic leadership only.
+       - Exclude direct competitors (other AI consultancies) if it's clear they don't hire external juniors.
+    
+    SEARCH DATA:
+    {aggregated_results}
+    
+    Extract exactly company names.
+    Return ONLY a JSON list of strings. Example: ["Company A", "Company B"]
     """
+    
     response = llm.invoke(prompt)
     names = extract_json_list(response.content.strip())
     
-    # Fallback if LLM fails
+    # Fallback for demo stability
     if not names:
-        names = ["Silo AI", "Reaktor", "Nokia", "Supermetrics"]
+        names = ["Kone", "Supermetrics", "Wolt", "Oura", "Nokia"]
         
-    print(f"   Identified: {names}")
+    print(f"   Identified Candidates: {names}")
     
     companies_struct = []
     for name in names:
         companies_struct.append({
             "name": name,
-            "ticker": "Checking...",
-            "financial_growth": "Pending",
-            "job_description": []
+            "ticker": "Check",
+            "website": "Pending",
+            "financial_summary": "Pending",
+            "job_data": [],
+            "lead_score": 0,
+            "sales_argument": "Pending",
+            "sources": []
         })
         
     return {"companies": companies_struct}
 
 def financial_node(state: AgentState):
-    print("\n--- [2] Analyzing Financials (Public & Private) ---")
+    print("\n--- [2] Financials: Assessing Budget & Growth ---")
     companies = state['companies']
     llm = ChatOllama(model=LLM_MODEL, temperature=0)
     search = TavilySearchResults(max_results=2)
@@ -98,125 +142,194 @@ def financial_node(state: AgentState):
     updated_companies = []
     
     for comp in companies:
-        print(f"   Analyzing: {comp['name']}")
+        print(f"   Checking Financials: {comp['name']}")
         
-        # Step A: Check if Public
-        ticker_query = f"Stock ticker symbol for {comp['name']} Finland. Is it public?"
-        ticker_search = search.invoke(ticker_query)
+        # 1. Ticker Check
+        ticker_query = f"Stock ticker for {comp['name']} Finland. Is it public?"
+        ticker_res = search.invoke(ticker_query)
+        comp['sources'].extend(collect_urls(ticker_res))
         
-        prompt_ticker = f"""
-        Context: {ticker_search}
-        Is {comp['name']} a public company? 
-        If YES, return the ticker (e.g. NOKIA). 
-        If NO (Private), return 'PRIVATE'.
-        Return ONLY the word 'PRIVATE' or the Ticker string.
+        # LLM decides if public/private
+        ticker_prompt = f"Is {comp['name']} public? Return ticker or 'PRIVATE'. Context: {ticker_res}"
+        ticker = llm.invoke(ticker_prompt).content.strip().upper()
+        
+        fin_data = ""
+        
+        if "PRIVATE" not in ticker and len(ticker) < 12:
+            stock_data = check_stock_growth(ticker)
+            if stock_data:
+                fin_data += f"Public Market: {stock_data}. "
+        
+        # 2. News/Funding Check (Crucial for "Why Now")
+        news_query = f"{comp['name']} Finland revenue growth funding round investment 2024 2025"
+        news_res = search.invoke(news_query)
+        comp['sources'].extend(collect_urls(news_res))
+        
+        summary_prompt = f"""
+        Context: {news_res}
+        Summarize {comp['name']}'s recent financial situation in 1 sentence.
+        Highlight: Investment rounds, acquisitions, or revenue growth.
+        If bad news (layoffs), mention that.
         """
-        ticker_result = llm.invoke(prompt_ticker).content.strip().upper()
+        news_summary = llm.invoke(summary_prompt).content.strip()
         
-        growth_info = "Data Not Available"
-        
-        # Step B: Branch Logic
-        if "PRIVATE" not in ticker_result and len(ticker_result) < 10:
-            # PUBLIC PATH
-            comp['ticker'] = ticker_result
-            print(f"      Found Ticker: {ticker_result}")
-            calc = check_stock_growth(ticker_result)
-            if calc:
-                growth_info = calc
-            else:
-                growth_info = "Public data lookup failed."
-        else:
-            # PRIVATE PATH - Search for News/Revenue
-            comp['ticker'] = "PRIVATE"
-            print(f"      Private Company. Searching news...")
-            
-            # Search specifically for financial news
-            news_query = f"{comp['name']} Finland financial results revenue growth 2024 2025 press release funding"
-            news_results = search.invoke(news_query)
-            
-            # LLM Summarization
-            prompt_news = f"""
-            Analyze these search snippets about {comp['name']}:
-            {news_results}
-            
-            Summarize their financial status in 1-2 sentences. 
-            Look for: Revenue growth, Funding rounds (Series A/B), Acquisitions, or Profitability.
-            If data is missing, say "No recent public financial data found."
-            """
-            growth_info = llm.invoke(prompt_news).content.strip()
+        comp['financial_summary'] = f"{fin_data} {news_summary}"
 
-        comp['financial_growth'] = growth_info
+        # 3. Website Check
+        site_query = f"{comp['name']} official website"
+        site_res = search.invoke(site_query)
+        comp['sources'].extend(collect_urls(site_res))
+        
+        site_prompt = f"Context: {site_res}\nExtract the official website URL for {comp['name']}. Return ONLY the URL."
+        website = llm.invoke(site_prompt).content.strip()
+        comp['website'] = website
+        
         updated_companies.append(comp)
         
     return {"companies": updated_companies}
 
 def recruitment_node(state: AgentState):
-    print("\n--- [3] Scouting Jobs (Site Search) ---")
+    print("\n--- [3] Recruitment: Scouting Talent Gaps ---")
     companies = state['companies']
     llm = ChatOllama(model=LLM_MODEL, temperature=0)
-    
-    # increased results to get better coverage of career pages
-    search = TavilySearchResults(max_results=3) 
+    search = TavilySearchResults(max_results=3)
     
     updated_companies = []
     
     for comp in companies:
-        print(f"   Scouting: {comp['name']}")
+        print(f"   Scouting Jobs: {comp['name']}")
         
-        # Query optimized to find the list directly
-        query = f"site:*.fi {comp['name']} careers open positions list data engineer ai"
+        # Targeted search for Skillio's fit (Data/AI roles)
+        query = f"site:*.fi {comp['name']} careers open positions data engineer analyst ai developer list"
         results = search.invoke(query)
+        comp['sources'].extend(collect_urls(results))
         
         prompt = f"""
         Context from {comp['name']} career pages:
         {results}
         
-        Extract a list of open job roles.
-        Format ONLY as a valid JSON list of objects with keys: "title" and "date".
-        If the date is not explicitly visible in the snippet, write "Unknown".
-        
-        Example:
-        [
-            {{"title": "Senior Data Engineer", "date": "2024-05-10"}},
-            {{"title": "AI Researcher", "date": "Unknown"}}
-        ]
-        
+        Extract a JSON list of open Data/AI roles.
+        Format: [{{"title": "Role Name", "seniority": "Junior/Mid/Senior/Lead"}}]
+        Infer seniority from the title.
         Return ONLY the JSON.
         """
         
-        raw_response = llm.invoke(prompt).content.strip()
+        raw_resp = llm.invoke(prompt).content.strip()
+        jobs = extract_json_list(raw_resp)
         
-        # Parse the LLM output
-        jobs_list = extract_json_list(raw_response)
-        
-        # Fallback if list is empty/parsing failed
-        if not jobs_list:
-            jobs_list = [{"title": "Check Career Page (Extraction Failed)", "date": "N/A"}]
+        if not jobs:
+            # Fallback: Empty list implies no obvious open roles found online
+            jobs = []
             
-        comp['job_description'] = jobs_list
+        comp['job_data'] = jobs
         updated_companies.append(comp)
         
     return {"companies": updated_companies}
 
+def scoring_node(state: AgentState):
+    """
+    The 'Brain' of the operation.
+    Evaluates fit for Skillio based on the 'Quality Lead' criteria.
+    """
+    print("\n--- [4] Scoring: Qualifying Leads for Skillio ---")
+    companies = state['companies']
+    llm = ChatOllama(model=LLM_MODEL, temperature=0)
+    
+    scored_companies = []
+    
+    for comp in companies:
+        print(f"   Scoring: {comp['name']}...")
+        
+        # Prepare the context for the LLM Agent
+        prompt = f"""
+        You are the Sales Director for "Skillio".
+        
+        ABOUT SKILLIO:
+        - We build Data/AI capacity for clients.
+        - We provide technically trained, business-oriented JUNIORS and MID-LEVEL professionals.
+        - We DO NOT provide high-level seniors/principals.
+        - Ideal Client: A company investing in AI that needs "hands on deck" to execute, or has a training gap.
+        
+        COMPANY DATA:
+        - Name: {comp['name']}
+        - Financials/News: {comp['financial_summary']}
+        - Open Jobs: {json.dumps(comp['job_data'])}
+        
+        TASK:
+        1. Assign a "Lead Score" (0-100).
+           - +20 pts: Recent funding or high growth.
+           - +30 pts: Hiring multiple Data Engineers/Analysts (indicates volume need).
+           - +10 pts: Junior/Trainee roles mentioned.
+           - -50 pts: Layoffs or financial distress.
+           - -20 pts: Only hiring "Principal" or "Head of AI" (we can't help them).
+           - -20 pts: No open data roles found.
+           
+        2. Write a "Sales Argument" (2 sentences).
+           - "Why this company?": Do they have a capacity gap?
+           - "Why now?": Did they just get funding? Are they actively recruiting?
+        
+        OUTPUT FORMAT (JSON ONLY):
+        {{
+            "score": <int>,
+            "sales_argument": "<string>"
+        }}
+        """
+        
+        try:
+            response = llm.invoke(prompt).content.strip()
+            # Clean up markdown if present
+            if "```json" in response:
+                response = response.split("```json")[1].split("```")[0]
+            elif "{" in response:
+                response = "{" + response.split("{", 1)[1]
+                response = response.rsplit("}", 1)[0] + "}"
+
+            result = json.loads(response)
+            comp['lead_score'] = result.get('score', 0)
+            comp['sales_argument'] = result.get('sales_argument', "Analysis failed.")
+            
+        except Exception as e:
+            print(f"   Scoring Error for {comp['name']}: {e}")
+            comp['lead_score'] = 0
+            comp['sales_argument'] = "Could not score due to data issues."
+            
+        scored_companies.append(comp)
+    
+    # SORTING LOGIC: Highest Priority First
+    scored_companies.sort(key=lambda x: x['lead_score'], reverse=True)
+    
+    return {"companies": scored_companies}
+
 def writer_node(state: AgentState):
-    print("\n--- [4] Writing Report ---")
-    filename = "finland_ai_report.json"
+    print("\n--- [5] Final Report ---")
+    
+    # Deduplicate sources
+    for comp in state['companies']:
+        comp['sources'] = list(set(comp['sources']))
+
+    # Generate a unique filename based on the current timestamp
+    from datetime import datetime
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"skillio_leads_{timestamp}.json"
+
     with open(filename, "w") as f:
         json.dump(state['companies'], f, indent=4)
-    print(f"Success! Data saved to {filename}")
+    print(f"Leads saved to {filename} (Ordered by Priority)")
     return state
 
 # --- GRAPH CONSTRUCTION ---
 workflow = StateGraph(AgentState)
 workflow.add_node("discovery", discovery_node)
-workflow.add_node("financial_analyst", financial_node)
-workflow.add_node("recruiter", recruitment_node)
+workflow.add_node("financial", financial_node)
+workflow.add_node("recruitment", recruitment_node)
+workflow.add_node("scoring", scoring_node) # <--- The New Node
 workflow.add_node("writer", writer_node)
 
 workflow.set_entry_point("discovery")
-workflow.add_edge("discovery", "financial_analyst")
-workflow.add_edge("financial_analyst", "recruiter")
-workflow.add_edge("recruiter", "writer")
+workflow.add_edge("discovery", "financial")
+workflow.add_edge("financial", "recruitment")
+workflow.add_edge("recruitment", "scoring")
+workflow.add_edge("scoring", "writer")
 workflow.add_edge("writer", END)
 
 app = workflow.compile()
