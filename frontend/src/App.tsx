@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './App.css'
 
 interface JobData {
@@ -24,6 +24,8 @@ function App() {
   const [showJobs, setShowJobs] = useState(false)
   const [showStartAnimation, setShowStartAnimation] = useState(false)
   const [lastRunTime, setLastRunTime] = useState<Date | null>(null)
+  const [wsMessages, setWsMessages] = useState<string[]>([])
+  const wsRef = useRef<WebSocket | null>(null)
 
   const handleStart = async () => {
     setShowStartAnimation(true)
@@ -36,6 +38,45 @@ function App() {
 
     setIsFading(false)
     setShowJobs(false)
+    // Set initial messages
+    setWsMessages(['Initializing search...'])
+
+    // Connect to WebSocket
+    try {
+      const ws = new WebSocket('ws://localhost:4000')
+      wsRef.current = ws
+
+      ws.onopen = () => {
+        console.log('WebSocket connected successfully')
+      }
+
+      ws.onmessage = (event) => {
+        const message = event.data
+        setWsMessages((prev) => [...prev, message])
+      }
+
+      ws.onerror = (error) => {
+        console.error('WebSocket error:', error)
+        console.error('WebSocket connection failed. Make sure the server is running on ws://localhost:4000')
+        // Add error message to UI
+        setWsMessages((prev) => [...prev, '⚠️ WebSocket connection failed - check if server is running on port 4000'])
+      }
+
+      ws.onclose = (event) => {
+        console.log('WebSocket disconnected', event.code, event.reason)
+        if (event.code !== 1000) {
+          // Not a normal closure
+          console.error('WebSocket closed unexpectedly:', event.code, event.reason)
+        }
+        wsRef.current = null
+      }
+    } catch (error) {
+      console.error('Error creating WebSocket connection:', error)
+      setWsMessages((prev) => [...prev, '⚠️ Failed to create WebSocket connection'])
+    }
+
+    // Wait 3 seconds before sending GET request
+    await new Promise(resolve => setTimeout(resolve, 3000))
 
     try {
       // Send GET request to fetch company data
@@ -62,7 +103,7 @@ function App() {
 
       // Send POST request to webhook with the same data
       try {
-        await fetch('https://otsosaarinen.app.n8n.cloud/webhook-test/1fa2fee2-72c5-41fa-9e40-72abe6202392', {
+        await fetch('https://otsosaarinen.app.n8n.cloud/webhook/1fa2fee2-72c5-41fa-9e40-72abe6202392', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -92,18 +133,63 @@ function App() {
       console.error('Error fetching company data:', error)
       // For now, just log the error - don't show error state
       // This allows viewing mock data during development
+    } finally {
+      // Close WebSocket connection when loading is done
+      if (wsRef.current) {
+        wsRef.current.close()
+        wsRef.current = null
+      }
     }
   }
 
   const handleRetry = async () => {
     setShowJobs(false)
     setIsFading(true)
+    // Set initial messages
+    setWsMessages(['Initializing search...'])
 
     // Fade out dashboard, then show loading
     setTimeout(async () => {
       setCompanies([])
       setIsLoading(true)
       setIsFading(false)
+
+      // Connect to WebSocket
+      try {
+        const ws = new WebSocket('ws://localhost:4000')
+        wsRef.current = ws
+
+        ws.onopen = () => {
+          console.log('WebSocket connected successfully')
+        }
+
+        ws.onmessage = (event) => {
+          const message = event.data
+          setWsMessages((prev) => [...prev, message])
+        }
+
+        ws.onerror = (error) => {
+          console.error('WebSocket error:', error)
+          console.error('WebSocket connection failed. Make sure the server is running on ws://localhost:4000')
+          // Add error message to UI
+          setWsMessages((prev) => [...prev, '⚠️ WebSocket connection failed - check if server is running on port 4000'])
+        }
+
+        ws.onclose = (event) => {
+          console.log('WebSocket disconnected', event.code, event.reason)
+          if (event.code !== 1000) {
+            // Not a normal closure
+            console.error('WebSocket closed unexpectedly:', event.code, event.reason)
+          }
+          wsRef.current = null
+        }
+      } catch (error) {
+        console.error('Error creating WebSocket connection:', error)
+        setWsMessages((prev) => [...prev, '⚠️ Failed to create WebSocket connection'])
+      }
+
+      // Wait 3 seconds before sending GET request
+      await new Promise(resolve => setTimeout(resolve, 3000))
 
       try {
         // Send GET request to fetch company data
@@ -159,9 +245,25 @@ function App() {
       } catch (error) {
         console.error('Error fetching company data:', error)
         // For now, just log the error - don't show error state
+      } finally {
+        // Close WebSocket connection when loading is done
+        if (wsRef.current) {
+          wsRef.current.close()
+          wsRef.current = null
+        }
       }
     }, 700) // Fade out duration
   }
+
+  // Cleanup WebSocket on unmount
+  useEffect(() => {
+    return () => {
+      if (wsRef.current) {
+        wsRef.current.close()
+        wsRef.current = null
+      }
+    }
+  }, [])
 
   const getScoreColor = (score: number) => {
     if (score >= 80) return 'text-green-700 bg-green-100 border border-green-300'
@@ -486,6 +588,22 @@ function App() {
                 <p className="text-slate-600 font-medium text-lg">
                   Processing...
                 </p>
+                {wsMessages.length > 0 && (
+                  <div className="mt-6 max-w-md mx-auto">
+                    <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-lg p-4 shadow-lg">
+                      <div className="space-y-2 max-h-48 overflow-y-auto">
+                        {wsMessages.map((message, index) => (
+                          <div
+                            key={index}
+                            className="text-sm text-slate-700 animate-fade-in"
+                          >
+                            {message}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>
