@@ -1,288 +1,326 @@
-import { useState, useEffect, useRef } from 'react'
-import './App.css'
+import { useState, useEffect, useRef } from "react";
+import "./App.css";
 
 interface JobData {
-  title: string
-  seniority: string
+  title: string;
+  seniority: string;
 }
 
 interface Company {
-  name: string
-  ticker: string
-  website: string
-  financial_summary: string
-  job_data: JobData[]
-  lead_score: number
-  sales_argument: string
-  sources: string[]
+  name: string;
+  ticker: string;
+  website: string;
+  financial_summary: string;
+  job_data: JobData[];
+  lead_score: number;
+  sales_argument: string;
+  sources: string[];
 }
 
 function App() {
-  const [isLoading, setIsLoading] = useState(false)
-  const [companies, setCompanies] = useState<Company[]>([])
-  const [isFading, setIsFading] = useState(false)
-  const [showJobs, setShowJobs] = useState(false)
-  const [showStartAnimation, setShowStartAnimation] = useState(false)
-  const [lastRunTime, setLastRunTime] = useState<Date | null>(null)
-  const [wsMessages, setWsMessages] = useState<string[]>([])
-  const wsRef = useRef<WebSocket | null>(null)
+  const [isLoading, setIsLoading] = useState(false);
+  const [companies, setCompanies] = useState<Company[]>([]);
+  const [isFading, setIsFading] = useState(false);
+  const [showJobs, setShowJobs] = useState(false);
+  const [showStartAnimation, setShowStartAnimation] = useState(false);
+  const [lastRunTime, setLastRunTime] = useState<Date | null>(null);
+  const [wsMessages, setWsMessages] = useState<string[]>([]);
+  const wsRef = useRef<WebSocket | null>(null);
 
   const handleStart = async () => {
-    setShowStartAnimation(true)
+    setShowStartAnimation(true);
 
     // Brief animation before showing spinner
     setTimeout(() => {
-      setIsLoading(true)
-      setShowStartAnimation(false)
-    }, 400) // Animation duration
+      setIsLoading(true);
+      setShowStartAnimation(false);
+    }, 400); // Animation duration
 
-    setIsFading(false)
-    setShowJobs(false)
+    setIsFading(false);
+    setShowJobs(false);
     // Set initial messages
-    setWsMessages(['Initializing search...'])
+    setWsMessages(["Initializing search..."]);
 
     // Connect to WebSocket
     try {
-      const ws = new WebSocket('ws://localhost:4000')
-      wsRef.current = ws
+      const ws = new WebSocket("ws://localhost:4000");
+      wsRef.current = ws;
 
       ws.onopen = () => {
-        console.log('WebSocket connected successfully')
-      }
+        console.log("WebSocket connected successfully");
+      };
 
       ws.onmessage = (event) => {
-        const message = event.data
-        setWsMessages((prev) => [...prev, message])
-      }
+        const message = event.data;
+        setWsMessages((prev) => [...prev, message]);
+      };
 
       ws.onerror = (error) => {
-        console.error('WebSocket error:', error)
-        console.error('WebSocket connection failed. Make sure the server is running on ws://localhost:4000')
+        console.error("WebSocket error:", error);
+        console.error(
+          "WebSocket connection failed. Make sure the server is running on ws://localhost:4000"
+        );
         // Add error message to UI
-        setWsMessages((prev) => [...prev, '⚠️ WebSocket connection failed - check if server is running on port 4000'])
-      }
+        setWsMessages((prev) => [
+          ...prev,
+          "⚠️ WebSocket connection failed - check if server is running on port 4000",
+        ]);
+      };
 
       ws.onclose = (event) => {
-        console.log('WebSocket disconnected', event.code, event.reason)
+        console.log("WebSocket disconnected", event.code, event.reason);
         if (event.code !== 1000) {
           // Not a normal closure
-          console.error('WebSocket closed unexpectedly:', event.code, event.reason)
+          console.error(
+            "WebSocket closed unexpectedly:",
+            event.code,
+            event.reason
+          );
         }
-        wsRef.current = null
-      }
+        wsRef.current = null;
+      };
     } catch (error) {
-      console.error('Error creating WebSocket connection:', error)
-      setWsMessages((prev) => [...prev, '⚠️ Failed to create WebSocket connection'])
+      console.error("Error creating WebSocket connection:", error);
+      setWsMessages((prev) => [
+        ...prev,
+        "⚠️ Failed to create WebSocket connection",
+      ]);
     }
 
     // Wait 3 seconds before sending GET request
-    await new Promise(resolve => setTimeout(resolve, 3000))
+    await new Promise((resolve) => setTimeout(resolve, 3000));
 
     try {
       // Send GET request to fetch company data
-      const response = await fetch('http://localhost:3000', {
-        method: 'GET',
+      const response = await fetch("http://localhost:4000", {
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-      })
+      });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const data: Company[] = await response.json()
+      const data: Company[] = await response.json();
 
       // Ensure we have valid data
       if (!Array.isArray(data) || data.length === 0) {
-        throw new Error('Invalid data format or empty response')
+        throw new Error("Invalid data format or empty response");
       }
 
       // Sort companies by lead_score (highest to lowest) - highest score first
-      const sortedCompanies = data.sort((a, b) => b.lead_score - a.lead_score).slice(0, 3)
+      const sortedCompanies = data
+        .sort((a, b) => b.lead_score - a.lead_score)
+        .slice(0, 3);
 
       // Send POST request to webhook with the same data
       try {
-        await fetch('https://otsosaarinen.app.n8n.cloud/webhook/1fa2fee2-72c5-41fa-9e40-72abe6202392', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(sortedCompanies),
-        })
+        await fetch(
+          "https://otsosaarinen.app.n8n.cloud/webhook/1fa2fee2-72c5-41fa-9e40-72abe6202392",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(sortedCompanies),
+          }
+        );
       } catch (postError) {
-        console.error('Error sending data to webhook:', postError)
+        console.error("Error sending data to webhook:", postError);
         // Don't block the UI if webhook fails
       }
 
       // Fade out loading, then fade in dashboard
-      setIsFading(true)
+      setIsFading(true);
       setTimeout(() => {
-        setCompanies(sortedCompanies)
-        setLastRunTime(new Date())
-        setIsLoading(false)
+        setCompanies(sortedCompanies);
+        setLastRunTime(new Date());
+        setIsLoading(false);
         setTimeout(() => {
-          setIsFading(false)
+          setIsFading(false);
           // Trigger company card animations after fade in
           setTimeout(() => {
-            setShowJobs(true)
-          }, 100)
-        }, 50) // Small delay to ensure state update before fade in
-      }, 700) // Fade out duration
+            setShowJobs(true);
+          }, 100);
+        }, 50); // Small delay to ensure state update before fade in
+      }, 700); // Fade out duration
     } catch (error) {
-      console.error('Error fetching company data:', error)
+      console.error("Error fetching company data:", error);
       // For now, just log the error - don't show error state
       // This allows viewing mock data during development
     } finally {
       // Close WebSocket connection when loading is done
       if (wsRef.current) {
-        wsRef.current.close()
-        wsRef.current = null
+        wsRef.current.close();
+        wsRef.current = null;
       }
     }
-  }
+  };
 
   const handleRetry = async () => {
-    setShowJobs(false)
-    setIsFading(true)
+    setShowJobs(false);
+    setIsFading(true);
     // Set initial messages
-    setWsMessages(['Initializing search...'])
+    setWsMessages(["Initializing search..."]);
 
     // Fade out dashboard, then show loading
     setTimeout(async () => {
-      setCompanies([])
-      setIsLoading(true)
-      setIsFading(false)
+      setCompanies([]);
+      setIsLoading(true);
+      setIsFading(false);
 
       // Connect to WebSocket
       try {
-        const ws = new WebSocket('ws://localhost:4000')
-        wsRef.current = ws
+        const ws = new WebSocket("ws://localhost:4000");
+        wsRef.current = ws;
 
         ws.onopen = () => {
-          console.log('WebSocket connected successfully')
-        }
+          console.log("WebSocket connected successfully");
+        };
 
         ws.onmessage = (event) => {
-          const message = event.data
-          setWsMessages((prev) => [...prev, message])
-        }
+          const message = event.data;
+          setWsMessages((prev) => [...prev, message]);
+        };
 
         ws.onerror = (error) => {
-          console.error('WebSocket error:', error)
-          console.error('WebSocket connection failed. Make sure the server is running on ws://localhost:4000')
+          console.error("WebSocket error:", error);
+          console.error(
+            "WebSocket connection failed. Make sure the server is running on ws://localhost:4000"
+          );
           // Add error message to UI
-          setWsMessages((prev) => [...prev, '⚠️ WebSocket connection failed - check if server is running on port 4000'])
-        }
+          setWsMessages((prev) => [
+            ...prev,
+            "⚠️ WebSocket connection failed - check if server is running on port 4000",
+          ]);
+        };
 
         ws.onclose = (event) => {
-          console.log('WebSocket disconnected', event.code, event.reason)
+          console.log("WebSocket disconnected", event.code, event.reason);
           if (event.code !== 1000) {
             // Not a normal closure
-            console.error('WebSocket closed unexpectedly:', event.code, event.reason)
+            console.error(
+              "WebSocket closed unexpectedly:",
+              event.code,
+              event.reason
+            );
           }
-          wsRef.current = null
-        }
+          wsRef.current = null;
+        };
       } catch (error) {
-        console.error('Error creating WebSocket connection:', error)
-        setWsMessages((prev) => [...prev, '⚠️ Failed to create WebSocket connection'])
+        console.error("Error creating WebSocket connection:", error);
+        setWsMessages((prev) => [
+          ...prev,
+          "⚠️ Failed to create WebSocket connection",
+        ]);
       }
 
       // Wait 3 seconds before sending GET request
-      await new Promise(resolve => setTimeout(resolve, 3000))
+      await new Promise((resolve) => setTimeout(resolve, 3000));
 
       try {
         // Send GET request to fetch company data
-        const response = await fetch('http://localhost:3000', {
-          method: 'GET',
+        const response = await fetch("http://localhost:4000", {
+          method: "GET",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
-        })
+        });
 
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        const data: Company[] = await response.json()
+        const data: Company[] = await response.json();
 
         // Ensure we have valid data
         if (!Array.isArray(data) || data.length === 0) {
-          throw new Error('Invalid data format or empty response')
+          throw new Error("Invalid data format or empty response");
         }
 
         // Sort companies by lead_score (highest to lowest) - highest score first
-        const sortedCompanies = data.sort((a, b) => b.lead_score - a.lead_score).slice(0, 3)
+        const sortedCompanies = data
+          .sort((a, b) => b.lead_score - a.lead_score)
+          .slice(0, 3);
 
         // Send POST request to webhook with the same data
         try {
-          await fetch('https://otsosaarinen.app.n8n.cloud/webhook/1fa2fee2-72c5-41fa-9e40-72abe6202392', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-          })
+          await fetch(
+            "https://otsosaarinen.app.n8n.cloud/webhook/1fa2fee2-72c5-41fa-9e40-72abe6202392",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(data),
+            }
+          );
         } catch (postError) {
-          console.error('Error sending data to webhook:', postError)
+          console.error("Error sending data to webhook:", postError);
           // Don't block the UI if webhook fails
         }
 
         // Fade out loading, then fade in dashboard
-        setIsFading(true)
+        setIsFading(true);
         setTimeout(() => {
-          setCompanies(sortedCompanies)
-          setLastRunTime(new Date())
-          setIsLoading(false)
+          setCompanies(sortedCompanies);
+          setLastRunTime(new Date());
+          setIsLoading(false);
           setTimeout(() => {
-            setIsFading(false)
+            setIsFading(false);
             // Trigger company card animations after fade in
             setTimeout(() => {
-              setShowJobs(true)
-            }, 100)
-          }, 50) // Small delay to ensure state update before fade in
-        }, 700) // Fade out duration
+              setShowJobs(true);
+            }, 100);
+          }, 50); // Small delay to ensure state update before fade in
+        }, 700); // Fade out duration
       } catch (error) {
-        console.error('Error fetching company data:', error)
+        console.error("Error fetching company data:", error);
         // For now, just log the error - don't show error state
       } finally {
         // Close WebSocket connection when loading is done
         if (wsRef.current) {
-          wsRef.current.close()
-          wsRef.current = null
+          wsRef.current.close();
+          wsRef.current = null;
         }
       }
-    }, 700) // Fade out duration
-  }
+    }, 700); // Fade out duration
+  };
 
   // Cleanup WebSocket on unmount
   useEffect(() => {
     return () => {
       if (wsRef.current) {
-        wsRef.current.close()
-        wsRef.current = null
+        wsRef.current.close();
+        wsRef.current = null;
       }
-    }
-  }, [])
+    };
+  }, []);
 
   const getScoreColor = (score: number) => {
-    if (score >= 80) return 'text-green-700 bg-green-100 border border-green-300'
-    if (score >= 60) return 'text-orange-700 bg-orange-100 border border-orange-300'
-    return 'text-red-700 bg-red-100 border border-red-300'
-  }
+    if (score >= 80)
+      return "text-green-700 bg-green-100 border border-green-300";
+    if (score >= 60)
+      return "text-orange-700 bg-orange-100 border border-orange-300";
+    return "text-red-700 bg-red-100 border border-red-300";
+  };
 
   if (companies.length > 0) {
     return (
-      <div className={`min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4 md:p-8 transition-opacity duration-700 ${isFading ? 'opacity-0' : 'opacity-100'}`}>
+      <div
+        className={`min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4 md:p-8 transition-opacity duration-700 ${
+          isFading ? "opacity-0" : "opacity-100"
+        }`}
+      >
         <div className="max-w-6xl mx-auto">
           <div className="mb-8 flex items-center justify-between">
             <div>
               <h1 className="text-4xl md:text-5xl font-bold text-slate-800 mb-2">
                 Dashboard
               </h1>
-              <p className="text-slate-600">
-                Company Matches
-              </p>
+              <p className="text-slate-600">Company Matches</p>
               {lastRunTime && (
                 <p className="text-sm text-slate-500 mt-1">
                   Last run: {lastRunTime.toLocaleString()}
@@ -314,12 +352,13 @@ function App() {
             {companies.map((company, index) => (
               <div
                 key={company.name}
-                className={`bg-white border border-slate-200 rounded-lg hover:border-slate-300 transition-all duration-500 p-6 flex flex-col shadow-md hover:shadow-lg ${showJobs
-                  ? 'opacity-100 translate-y-0'
-                  : 'opacity-0 translate-y-8'
-                  }`}
+                className={`bg-white border border-slate-200 rounded-lg hover:border-slate-300 transition-all duration-500 p-6 flex flex-col shadow-md hover:shadow-lg ${
+                  showJobs
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-8"
+                }`}
                 style={{
-                  transitionDelay: showJobs ? `${index * 100}ms` : '0ms'
+                  transitionDelay: showJobs ? `${index * 100}ms` : "0ms",
                 }}
               >
                 {/* Company Header */}
@@ -329,7 +368,7 @@ function App() {
                       <h2 className="text-2xl font-bold text-slate-900">
                         {company.name}
                       </h2>
-                      {company.ticker && company.ticker !== 'Check' && (
+                      {company.ticker && company.ticker !== "Check" && (
                         <span className="text-sm text-slate-500 font-medium">
                           ({company.ticker})
                         </span>
@@ -357,7 +396,11 @@ function App() {
                       </svg>
                     </a>
                   </div>
-                  <div className={`px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap ${getScoreColor(company.lead_score)}`}>
+                  <div
+                    className={`px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap ${getScoreColor(
+                      company.lead_score
+                    )}`}
+                  >
                     Score: {company.lead_score}/100
                   </div>
                 </div>
@@ -451,7 +494,9 @@ function App() {
                                   d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
                                 />
                               </svg>
-                              <span className="text-xs font-medium text-slate-600">{job.seniority}</span>
+                              <span className="text-xs font-medium text-slate-600">
+                                {job.seniority}
+                              </span>
                             </div>
                           </div>
                         </div>
@@ -463,20 +508,24 @@ function App() {
                 {/* Sources */}
                 {company.sources && company.sources.length > 0 && (
                   <div className="mt-4 pt-4 border-t border-slate-200">
-                    <h3 className="text-xs font-semibold text-slate-700 mb-2">Sources:</h3>
+                    <h3 className="text-xs font-semibold text-slate-700 mb-2">
+                      Sources:
+                    </h3>
                     <div className="flex flex-wrap gap-2">
-                      {company.sources.slice(0, 5).map((source, sourceIndex) => (
-                        <a
-                          key={sourceIndex}
-                          href={source}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-xs text-blue-600 hover:text-blue-700 hover:underline truncate max-w-xs"
-                          title={source}
-                        >
-                          {source}
-                        </a>
-                      ))}
+                      {company.sources
+                        .slice(0, 5)
+                        .map((source, sourceIndex) => (
+                          <a
+                            key={sourceIndex}
+                            href={source}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-xs text-blue-600 hover:text-blue-700 hover:underline truncate max-w-xs"
+                            title={source}
+                          >
+                            {source}
+                          </a>
+                        ))}
                       {company.sources.length > 5 && (
                         <span className="text-xs text-slate-500">
                           +{company.sources.length - 5} more
@@ -489,13 +538,14 @@ function App() {
             ))}
           </div>
 
-          <div className={`mt-8 bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-center gap-3 transition-all duration-500 ${showJobs
-            ? 'opacity-100 translate-y-0'
-            : 'opacity-0 translate-y-8'
+          <div
+            className={`mt-8 bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-center gap-3 transition-all duration-500 ${
+              showJobs ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
             style={{
-              transitionDelay: showJobs ? '300ms' : '0ms'
-            }}>
+              transitionDelay: showJobs ? "300ms" : "0ms",
+            }}
+          >
             <div className="flex-shrink-0">
               <svg
                 className="w-5 h-5 text-blue-600"
@@ -513,7 +563,9 @@ function App() {
             </div>
             <div className="flex-1">
               <p className="text-sm text-blue-800 font-medium">
-                This data has also been sent to <span className="font-semibold">Slack</span> and <span className="font-semibold">Email</span>
+                This data has also been sent to{" "}
+                <span className="font-semibold">Slack</span> and{" "}
+                <span className="font-semibold">Email</span>
               </p>
             </div>
             <div className="flex items-center gap-2 flex-shrink-0">
@@ -541,11 +593,15 @@ function App() {
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4 transition-opacity duration-700 ${isFading ? 'opacity-0' : 'opacity-100'}`}>
+    <div
+      className={`min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4 transition-opacity duration-700 ${
+        isFading ? "opacity-0" : "opacity-100"
+      }`}
+    >
       <div className="max-w-5xl w-full">
         <div className="text-center space-y-8 md:space-y-12">
           <div className="space-y-6">
@@ -610,7 +666,7 @@ function App() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

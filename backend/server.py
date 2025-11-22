@@ -40,6 +40,14 @@ class ConnectionManager:
 
 manager = ConnectionManager()
 
+# Global variable to store the event loop
+main_event_loop = None
+
+@app.on_event("startup")
+async def startup_event():
+    global main_event_loop
+    main_event_loop = asyncio.get_running_loop()
+
 @app.websocket("/")
 async def websocket_endpoint(websocket: WebSocket):
     await manager.connect(websocket)
@@ -56,12 +64,10 @@ def log_to_ws(message):
     # This is called from the synchronous graph execution.
     # We need to schedule the broadcast on the event loop.
     try:
-        loop = asyncio.get_running_loop()
-        if loop.is_running():
-            asyncio.run_coroutine_threadsafe(manager.broadcast(message), loop)
-    except RuntimeError:
-        # If no running loop (shouldn't happen in FastAPI), or other issue
-        pass
+        if main_event_loop and main_event_loop.is_running():
+            asyncio.run_coroutine_threadsafe(manager.broadcast(message), main_event_loop)
+    except Exception as e:
+        print(f"Error logging to WS: {e}")
 
 # Set the callback in main
 main.set_log_callback(log_to_ws)
