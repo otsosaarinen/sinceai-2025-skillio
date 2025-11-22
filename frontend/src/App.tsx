@@ -15,6 +15,7 @@ function App() {
   const [isFading, setIsFading] = useState(false)
   const [showJobs, setShowJobs] = useState(false)
   const [showStartAnimation, setShowStartAnimation] = useState(false)
+  const [lastRunTime, setLastRunTime] = useState<Date | null>(null)
 
   const handleStart = async () => {
     setShowStartAnimation(true)
@@ -62,6 +63,7 @@ function App() {
       setIsFading(true)
       setTimeout(() => {
         setJobs(sortedJobs)
+        setLastRunTime(new Date())
         setIsLoading(false)
         setTimeout(() => {
           setIsFading(false)
@@ -118,6 +120,7 @@ function App() {
         setIsFading(true)
         setTimeout(() => {
           setJobs(sortedJobs)
+          setLastRunTime(new Date())
           setIsLoading(false)
           setTimeout(() => {
             setIsFading(false)
@@ -149,6 +152,11 @@ function App() {
               <p className="text-slate-600">
                 Top 3 Job Matches
               </p>
+              {lastRunTime && (
+                <p className="text-sm text-slate-500 mt-1">
+                  Last run: {lastRunTime.toLocaleString()}
+                </p>
+              )}
             </div>
             <button
               onClick={handleRetry}
