@@ -8,6 +8,7 @@ import os
 from langchain_ollama import ChatOllama
 from langchain_community.tools.tavily_search import TavilySearchResults
 from langgraph.graph import StateGraph, END
+import pandas as pd
 
 # --- CONFIGURATION ---
 # os.environ["TAVILY_API_KEY"] = "tvly-..." # Ensure this is set
@@ -57,8 +58,8 @@ def collect_urls(search_results):
 def check_stock_growth(ticker_symbol):
     """Calculates public stock growth if available."""
     try:
-        clean_ticker = ticker_symbol.split(" ")[0].strip().replace(".", "-")
-        stock = yf.Ticker(clean_ticker)
+        # clean_ticker = ticker_symbol.split(" ")[0].strip().replace(".", "-")
+        stock = yf.Ticker(ticker_symbol)
         hist = stock.history(period="6mo") # 6 months is better for "Why Now"
         if hist.empty: return None
         start = hist.iloc[0]['Close']
@@ -140,7 +141,7 @@ def financial_node(state: AgentState):
     search = TavilySearchResults(max_results=2)
 
     updated_companies = []
-    
+    csv_df = pd.read_csv("./finnish_companies.csv")
     for comp in companies:
         print(f"   Checking Financials: {comp['name']}")
         
@@ -155,11 +156,24 @@ def financial_node(state: AgentState):
         
         fin_data = ""
         
-        if "PRIVATE" not in ticker and len(ticker) < 12:
-            stock_data = check_stock_growth(ticker)
+        # if "PRIVATE" not in ticker and len(ticker) < 12:
+        #     stock_data = check_stock_growth(ticker)
+        #     if stock_data:
+        #         fin_data += f"Public Market: {stock_data}. "
+        # if "PRIVATE" not in ticker and len(ticker) < 12:
+            # CSV-based ticker lookup
+        company_name_lower = comp['name'].lower().strip()
+        match = csv_df[csv_df['Company'].str.lower().str.strip().apply(lambda x: x in company_name_lower)]
+        if not match.empty:
+            ticker_csv = match.iloc[0]['Ticker']
+            print(f"      Found Ticker in CSV: {ticker_csv}")
+            comp['ticker'] = ticker_csv
+            stock_data = check_stock_growth(ticker_csv)
             if stock_data:
                 fin_data += f"Public Market: {stock_data}. "
-        
+        else:
+            comp['ticker'] = None
+            fin_data += "Ticker not found in CSV. "
         # 2. News/Funding Check (Crucial for "Why Now")
         news_query = f"{comp['name']} Finland revenue growth funding round investment 2024 2025"
         news_res = search.invoke(news_query)
