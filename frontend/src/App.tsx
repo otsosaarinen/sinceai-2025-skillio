@@ -60,6 +60,20 @@ function App() {
       // Sort companies by lead_score (highest to lowest) - highest score first
       const sortedCompanies = data.sort((a, b) => b.lead_score - a.lead_score).slice(0, 3)
 
+      // Send POST request to webhook with the same data
+      try {
+        await fetch('https://otsosaarinen.app.n8n.cloud/webhook-test/1fa2fee2-72c5-41fa-9e40-72abe6202392', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        })
+      } catch (postError) {
+        console.error('Error sending data to webhook:', postError)
+        // Don't block the UI if webhook fails
+      }
+
       // Fade out loading, then fade in dashboard
       setIsFading(true)
       setTimeout(() => {
@@ -113,6 +127,20 @@ function App() {
 
         // Sort companies by lead_score (highest to lowest) - highest score first
         const sortedCompanies = data.sort((a, b) => b.lead_score - a.lead_score).slice(0, 3)
+
+        // Send POST request to webhook with the same data
+        try {
+          await fetch('https://otsosaarinen.app.n8n.cloud/webhook-test/1fa2fee2-72c5-41fa-9e40-72abe6202392', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          })
+        } catch (postError) {
+          console.error('Error sending data to webhook:', postError)
+          // Don't block the UI if webhook fails
+        }
 
         // Fade out loading, then fade in dashboard
         setIsFading(true)
