@@ -1,0 +1,16 @@
+langgraph 
+langchain 
+langchain-ollama 
+langchain-community 
+yfinance 
+tavily-python
+duckduckgo-search
+flask
+flask-socketio
+eventlet
+pandas
+python-dotenv
+flask-cors
+fastapi
+uvicorn
+python-socketio
