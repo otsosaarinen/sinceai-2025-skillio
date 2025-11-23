@@ -10,6 +10,7 @@ from langchain_ollama import ChatOllama
 from langchain_community.tools.tavily_search import TavilySearchResults
 from langgraph.graph import StateGraph, END
 import pandas as pd
+import requests
 
 # --- CONFIGURATION ---
 # os.environ["TAVILY_API_KEY"] = "tvly-..." # Ensure this is set
@@ -85,6 +86,34 @@ def check_stock_growth(ticker_symbol):
         return f"Stock: {growth:.2f}% (6mo change)"
     except:
         return None
+
+def check_ollama_status():
+    """Check if Ollama is running and the required model is available."""
+    ollama_url = "http://localhost:11434/api/models"  # Default Ollama endpoint
+
+    try:
+        response = requests.get(ollama_url, timeout=5)
+        response.raise_for_status()
+        models = response.json()
+
+        # Check if the required model is available
+        required_model = LLM_MODEL
+        if any(model.get("name") == required_model for model in models):
+            log(f"Ollama is running and model '{required_model}' is available.")
+            return True
+        else:
+            log(f"Ollama is running, but model '{required_model}' is not available.")
+            return False
+    except requests.exceptions.ConnectionError:
+        log("Ollama is not running. Please start the Ollama server.")
+        return False
+    except Exception as e:
+        log(f"Error checking Ollama status: {e}")
+        return False
+
+# Call the check at startup
+if not check_ollama_status():
+    sys.exit("Exiting: Ollama is not running or the required model is unavailable.")
 
 # --- NODES ---
 
