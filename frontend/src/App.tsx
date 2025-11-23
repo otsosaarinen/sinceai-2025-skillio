@@ -606,7 +606,7 @@ function App() {
         <div className="text-center space-y-8 md:space-y-12">
           <div className="space-y-6">
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-slate-900 leading-tight">
-              AI Lead Agent
+              AIDA
             </h1>
             <p className="text-xl md:text-2xl lg:text-3xl text-slate-600 font-light max-w-3xl mx-auto">
               Start identifying potential customers with intelligent automation
